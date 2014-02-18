@@ -1,0 +1,38 @@
+﻿<grammar version="1.0" xml:lang="en-US" root="regelMain" tag-format="semantics/1.0-literals"
+ xmlns="http://www.w3.org/2001/06/grammar">
+
+  <rule id="regelMain">
+    <ruleref uri="#wantDrink" />
+    <one-of>
+      <item>
+        <one-of>
+          <item> vodka </item>
+          <item> russian </item>
+        </one-of>
+        <tag>vodka</tag>
+      </item>
+      <item>
+        <one-of>
+          <item> beer </item>
+          <item> bud </item>
+        </one-of>
+        <tag>pivo</tag>
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="wantDrink">
+    <one-of>
+      <item> barkeeper 
+        <tag></tag>
+      </item>
+      <item>drink
+        <tag></tag>
+      </item>
+      <item>thirsty
+        <tag></tag>
+      </item>
+    </one-of>
+  </rule>
+  
+</grammar>

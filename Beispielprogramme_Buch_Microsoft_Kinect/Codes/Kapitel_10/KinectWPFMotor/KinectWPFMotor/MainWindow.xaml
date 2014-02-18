@@ -1,0 +1,14 @@
+﻿<Window x:Class="KinectWPFMotor.MainWindow"
+ xmlns:toolkit="clr-namespace:Microsoft.Kinect.Toolkit;assembly=Microsoft.Kinect.Toolkit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="759" Width="704">
+    <Grid>
+        <toolkit:KinectSensorChooserUI x:Name="SensorChooserUI" IsListening="True"  HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <Label Content="Derzeitiger Wert: " Height="28" HorizontalAlignment="Left" Margin="130,102,0,0" Name="LblCurrent" VerticalAlignment="Top" />
+        <Label Content="Minimaler Wert:" Height="28" HorizontalAlignment="Left" Margin="130,153,0,0" Name="LblMin" VerticalAlignment="Top" />
+        <Label Content="Maximaler Wert:" Height="28" HorizontalAlignment="Left" Margin="130,204,0,0" Name="LblMax" VerticalAlignment="Top" />
+        <Button Content="Winkel Plus" Height="23" HorizontalAlignment="Left" Margin="434,107,0,0" Name="CmdPlus" VerticalAlignment="Top" Width="99" Click="CmdPlus_Click" />
+        <Button Content="Winkel Minus" Height="23" HorizontalAlignment="Left" Margin="434,204,0,0" Name="CmdMinus" VerticalAlignment="Top" Width="99" Click="CmdMinus_Click" />
+    </Grid>
+</Window>

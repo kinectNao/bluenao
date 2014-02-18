@@ -1,0 +1,10 @@
+﻿<Window x:Class="KinectWPFSound3.MainWindow"
+        xmlns:toolkit="clr-namespace:Microsoft.Kinect.Toolkit;assembly=Microsoft.Kinect.Toolkit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="550" Width="677">
+    <Grid>
+        <toolkit:KinectSensorChooserUI x:Name="SensorChooserUI" IsListening="True"  HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <Button Content="Reichweite" Height="23" HorizontalAlignment="Left" Margin="273,94,0,0" Name="CmdLimitRange" VerticalAlignment="Top" Width="111" Click="CmdLimitRange_Click" />
+    </Grid>
+</Window>
