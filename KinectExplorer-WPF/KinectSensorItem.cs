@@ -9,6 +9,7 @@ namespace Microsoft.Samples.Kinect.KinectExplorer
     using System;
     using System.ComponentModel;
     using Microsoft.Kinect;
+    using System.Threading;
 
     /// <summary>
     /// A KinectSensorItem maintains a bit of state about a KinectSensor and manages showing/closing
@@ -59,12 +60,13 @@ namespace Microsoft.Samples.Kinect.KinectExplorer
             }
         }
 
-        private KinectWindow Window { get; set; }
+        public KinectWindow Window { get; set; }
 
         /// <summary>
         /// Ensure a KinectWindow is associated with this KinectSensorItem, and Show it and Activate it.
         /// This can be safely called for a fully operation and visible Window.
         /// </summary>
+
         public void ShowWindow()
         {
             if (null == this.Window)
@@ -73,11 +75,25 @@ namespace Microsoft.Samples.Kinect.KinectExplorer
                 kinectWindow.Closed += this.KinectWindowOnClosed;
                 this.Window = kinectWindow;
             }
-
             this.Window.KinectSensor = this.Sensor;
             this.Window.Show();
             this.Window.Activate();
+
+
+
+            //HIER KANN ANSONSTEN AUCH NAO INITIALISIERT WERDEN
+            /*
+            KinectSensorItem_InitNao InitNao = new KinectSensorItem_InitNao();
+            KinectSensorItem_ShowWindows ShowWindows = new KinectSensorItem_ShowWindows(this);
+            Thread[] ta = new Thread[2];
+            ta[0] = new Thread(InitNao.DoWork);
+            ta[1] = new Thread(ShowWindows.DoWork);
+            ta[0].Start();
+            ta[1].Start();
+            */
         }
+
+
 
         /// <summary>
         /// Activate a Window for this sensor if such a Window already exists.
@@ -103,7 +119,7 @@ namespace Microsoft.Samples.Kinect.KinectExplorer
             }
         }
 
-        private void KinectWindowOnClosed(object sender, EventArgs e)
+        public void KinectWindowOnClosed(object sender, EventArgs e)
         {
             var sensor = this.Window.KinectSensor;
             this.Window.Closed -= this.KinectWindowOnClosed;

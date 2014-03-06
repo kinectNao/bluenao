@@ -71,7 +71,6 @@
                            Text="{Binding Path=DateTime, StringFormat={}{0:t}}" />
             </Grid>
         </DataTemplate>        
-        <l:VisibilityConverter x:Key="VisibilityConverter" />
     </Window.Resources>
     <Grid>
         <Grid Background="Transparent" Margin="20">
@@ -99,7 +98,7 @@
             <StackPanel 
             Grid.Row="1" Grid.RowSpan="4"
             Background="White"
-            Visibility="{Binding ElementName=kinectSensors,Path=Items.Count, Converter={StaticResource VisibilityConverter}}">
+            Visibility="{Binding ElementName=kinectSensors,Path=Items.Count}">
                 <!-- IMPORTANT: KinectSensorChooserUI component in Microsoft.Kinect.Toolkit is better to use or copy from
                  than KinectExplorers user experience for device and discovery. -->
                 <TextBlock Foreground="{StaticResource DarkNeutralBrush}" FontSize="{StaticResource LabelFontSize}" FontFamily="{StaticResource KinectFont}" Margin="-1 0 0 0">Kinect Sensor Required</TextBlock>

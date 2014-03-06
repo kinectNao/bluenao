@@ -32,13 +32,11 @@ namespace Microsoft.Samples.Kinect.KinectExplorer
         {
             
             InitializeComponent();
-            Nao_start nao_start = new Nao_start();
             this.sensorItems = new KinectSensorItemCollection();
             this.statusItems = new ObservableCollection<KinectStatusItem>();
             this.kinectSensors.ItemsSource = this.sensorItems;
             this.kinectStatus.ItemsSource = this.statusItems;
 
-            nao_start.willkommen("127.0.0.1", 9559);
         }
 
         private void WindowLoaded(object sender, EventArgs e)
@@ -50,6 +48,7 @@ namespace Microsoft.Samples.Kinect.KinectExplorer
             foreach (KinectSensor kinect in KinectSensor.KinectSensors)
             {
                 this.ShowStatus(kinect, kinect.Status);
+
             }
         }
 
