@@ -1,0 +1,5 @@
+aktuelles Programm Nao:
+C:\Users\nao\Desktop\Nao\Visual\ConsoleApplication2\ConsoleApplication2\Program.cs
+
+öffnet von Kinect das WPF-Fenster:
+C:\Users\nao\Desktop\Nao\KinectExplorer-WPF\KinectWindow.xaml.cs
