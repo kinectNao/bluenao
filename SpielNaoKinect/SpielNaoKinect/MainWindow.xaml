@@ -16,6 +16,11 @@
             <ColumnDefinition Width="150"/>
         </Grid.ColumnDefinitions>
         <!-- Buttons -->
+        <Grid Grid.Column="0" Grid.Row="1" Margin="10" Grid.ColumnSpan="1" >
+            <Image Name="KinectImage" Height="480" Width="640"></Image>
+            <Canvas Background="Transparent">
+            </Canvas>
+        </Grid>
         <Grid Grid.Column="2" Grid.Row="1" Margin="10" Grid.ColumnSpan="2" >
             <Button Margin="0,0,0,490" Click="Button_Start_Click" Visibility="Visible" Name="Button_Start">Start</Button>
             <Button Margin="0,65,0,425" Click="Button_Wiederholen_Click" Name="Button_Wiederholen">Bewegung wdh.</Button>

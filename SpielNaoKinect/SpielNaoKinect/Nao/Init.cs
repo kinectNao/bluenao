@@ -13,12 +13,13 @@ namespace SpielNaoKinect.Nao
             private RobotPostureProxy rpp;
             private TextToSpeechProxy tts;
             private MainWindow mw;
-
-           public void Nao(MainWindow mw)
+            public Init(MainWindow mw)
             {
                 // TODO: Complete member initialization
                 this.mw = mw;
             }
+
+
 
 
             public void Initialisierung(String ip, Int32 port)

@@ -3,23 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using SpielNaoKinect.Nao;
+using System.Windows;
 
 namespace SpielNaoKinect.Kinect
 {
     public class Programm
     {
-        void Main(string[] args)
+        /*
+        [STAThread]
+        static void Main(string[] args)
         {
-            Thread thread = new Thread(new ThreadStart(InitialisierungWindow));
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
+            new Application().Run(new MainWindow());
         }
-
-
-        private void InitialisierungWindow()
-        {
-            MainWindow Mainwindow = new MainWindow();
-        }
+         * */
     }
 }
