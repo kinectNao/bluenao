@@ -12,6 +12,8 @@ namespace SpielNaoKinect.Nao
             private MotionProxy motion;
             private RobotPostureProxy rpp;
             private TextToSpeechProxy tts;
+            private Bewegen Bewegen;
+            private Winkel Winkel;
             private MainWindow mw;
             public Init(MainWindow mw)
             {
@@ -38,8 +40,8 @@ namespace SpielNaoKinect.Nao
             public void Bew_Winkel()
             {
                 Console.WriteLine("Start des Threads");
-                Bewegen Bewegen = new Bewegen(rpp);
-                Winkel Winkel = new Winkel(motion);
+                Bewegen = new Bewegen(rpp);
+                Winkel = new Winkel(motion);
                 Thread[] ta = new Thread[2];
                 if (mw.Neue_Beweg)
                 {
@@ -56,6 +58,12 @@ namespace SpielNaoKinect.Nao
                 while (ta[0].IsAlive) ;
                 Winkel.RequestStop_Winkel();
                 Console.WriteLine("Ende der Threads");
+            }
+
+
+            public void Bew_Ausgangspos()
+            {
+                Bewegen.Ausgangsposition();
             }
     }
 }

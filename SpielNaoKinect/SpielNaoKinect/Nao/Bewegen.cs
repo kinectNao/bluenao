@@ -10,7 +10,7 @@ namespace SpielNaoKinect.Nao
     public class Bewegen
     {
         private RobotPostureProxy rpp;
-        private int Bewegungsnummer;
+        private Bewegungsnummer bn = new Bewegungsnummer();
 
         public Bewegen(RobotPostureProxy rpp)
         {
@@ -20,14 +20,28 @@ namespace SpielNaoKinect.Nao
         public void Bewegung_erzeugen()
         {
             Random r = new Random();
-            Bewegungsnummer = r.Next(8);
+            bn.Nummer = r.Next(8);
             Bewegung();
         }
 
+
+        public void Ausgangsposition()
+        {
+            try
+            {
+                rpp.goToPosture("StandInit", 1);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Ausgangsposition Fehler" + e.Message);
+            }
+        }
+
+
         public void Bewegung()
         {
-            rpp.goToPosture("StandInit", 1);
-            switch (Bewegungsnummer)
+            Console.WriteLine(bn.Nummer);
+            switch (bn.Nummer)
             {
                 case 1:
                     try

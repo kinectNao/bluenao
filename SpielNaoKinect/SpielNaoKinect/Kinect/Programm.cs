@@ -9,12 +9,6 @@ namespace SpielNaoKinect.Kinect
 {
     public class Programm
     {
-        /*
-        [STAThread]
-        static void Main(string[] args)
-        {
-            new Application().Run(new MainWindow());
-        }
-         * */
+       
     }
 }
