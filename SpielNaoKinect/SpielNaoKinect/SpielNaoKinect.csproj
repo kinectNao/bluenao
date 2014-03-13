@@ -72,7 +72,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Nao\Bewegen.cs" />
-    <Compile Include="Nao\Bewegungsnummer.cs" />
     <Compile Include="Nao\Init.cs" />
     <Compile Include="Nao\Start.cs" />
     <Compile Include="Nao\Winkel.cs" />

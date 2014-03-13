@@ -26,9 +26,11 @@ namespace SpielNaoKinect
     /// </summary>
     public partial class MainWindow : Window
     {
+// VARIABLEN
         KinectSensor mySensor;
         WriteableBitmap myBitmap;
         byte[] myArray;
+        Skeleton[] skeleton;
         public delegate void PixelData();
         public delegate void nachBewegung();
         public bool Neue_Beweg { get; set; }
@@ -38,7 +40,7 @@ namespace SpielNaoKinect
 
 
 
-
+// MAIN
         [System.STAThread()]
         static void Main(string[] args)
         {
@@ -46,7 +48,7 @@ namespace SpielNaoKinect
             new Application().Run(new MainWindow());
         }
 
-
+// KINECT starten
         public MainWindow()
         {
             Console.WriteLine("Starte MainWindow");
@@ -68,8 +70,10 @@ namespace SpielNaoKinect
             //Wenn Sensorreferenz vorhanden
             if (null != mySensor)
             {
+                mySensor.SkeletonStream.Enable();
                 mySensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
                 myArray = new byte[this.mySensor.ColorStream.FramePixelDataLength];
+                skeleton = new Skeleton[this.mySensor.SkeletonStream.FrameSkeletonArrayLength];
                 myBitmap = new WriteableBitmap(this.mySensor.ColorStream.FrameWidth, this.mySensor.ColorStream.FrameHeight, 96.0, 96.0, PixelFormats.Bgr32, null);
                 KinectImage.Source = myBitmap;
                 mySensor.ColorFrameReady += this.SensorColorFrameReady;
@@ -111,7 +115,7 @@ namespace SpielNaoKinect
         }
         
 
-        //Fenster geschlossen
+// FENSTER geschlossen
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Console.WriteLine("Unloading Programm...");
@@ -122,8 +126,7 @@ namespace SpielNaoKinect
             Console.WriteLine("Ende");
         }
 
-
-        
+// BUTTONS
 
         private void Button_NeueBewegung_Click(object sender, RoutedEventArgs e)
         {
@@ -137,7 +140,12 @@ namespace SpielNaoKinect
             Thread_Bewegung();
         }
 
+        private void Button_NeuesSpiel_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
+
+// THREAD Bewegung
         private void Thread_Bewegung()
         {
             LabelBewegung.Visibility = Visibility.Visible;
@@ -177,7 +185,7 @@ namespace SpielNaoKinect
             Init.Bew_Winkel();
         }
 
-
+// THREAD Initialisierungen - einmal aufgerufen!
         private void Thread_Init()
         {
             LabelBewegung.Visibility = Visibility.Visible;
@@ -211,14 +219,7 @@ namespace SpielNaoKinect
             }
         }
 
-
-
-        private void Button_NeuesSpiel_Click(object sender, RoutedEventArgs e)
-        {
-            Init.Bew_Ausgangspos();
-        }
-
-
+// TIMER
         /*
         //AB HIER TIMER... KANN ABER NICHT IN THREAD, DA THREAD NICHT AUF GUI ZUGREIFEN KANN
         private System.Windows.Forms.Timer Timer;
