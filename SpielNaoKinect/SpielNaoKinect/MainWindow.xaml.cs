@@ -14,10 +14,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
 using SpielNaoKinect.Nao;
+using SpielNaoKinect.Kinect;
 using Microsoft.Kinect;
 using System.IO;
 
-//using SpielNaoKinect.Kinect;
+
 
 namespace SpielNaoKinect
 {
@@ -31,12 +32,13 @@ namespace SpielNaoKinect
         WriteableBitmap myBitmap;
         byte[] myColorArray;
         Skeleton[] mySkeletonArray;
-        public delegate void PixelData();
+        public delegate void ImageVonKinect();
         public delegate void nachBewegung();
         public bool Neue_Beweg { get; set; }
         public Thread[] Th_Bewegung;
         public Thread[] Th_Init;
         private Init Init;
+        bool SkeletonDa;
 
 
 
@@ -77,12 +79,21 @@ namespace SpielNaoKinect
                 myBitmap = new WriteableBitmap(this.mySensor.ColorStream.FrameWidth, this.mySensor.ColorStream.FrameHeight, 96.0, 96.0, PixelFormats.Bgr32, null);
                 KinectImage.Source = myBitmap;
                 //mySensor.ColorFrameReady += this.SensorColorFrameReady;
-                mySensor.AllFramesReady += mySensor_AllFramesReady;
-                //mySensor.AllFramesReady += new EventHandler<AllFramesReadyEventArgs>(mySensor_AllFramesReady);
+
+
+
+                if (null != Application.Current)
+                {
+                    Application.Current.Dispatcher.BeginInvoke((ImageVonKinect)delegate
+                    {
+                        mySensor.AllFramesReady += mySensor_AllFramesReady;
+                    });
+                }
+                
+
                 try
                 {
                     this.mySensor.Start();
-                    //SensorChooserUI.Visibility = Visibility.Hidden;
                 }
                 catch (IOException)
                 {
@@ -93,20 +104,7 @@ namespace SpielNaoKinect
                 Thread_Init();
             }
         }
-        /*
-         * colorFrame.CopyPixelDataTo(myColorArray);
-                    if (null != Application.Current)
-                    {
-                        Application.Current.Dispatcher.BeginInvoke((PixelData)delegate
-                        {
-                            myBitmap.WritePixels(
-                            new Int32Rect(0, 0, myBitmap.PixelWidth, myBitmap.PixelHeight),
-                            myColorArray,
-                            myBitmap.PixelWidth * sizeof(int),
-                            0);
-                        });
-                    }
-         */
+
 
 // SKELETON
         private void mySensor_AllFramesReady(object sender, AllFramesReadyEventArgs e)
@@ -114,27 +112,24 @@ namespace SpielNaoKinect
             ColorImageFrame cf = e.OpenColorImageFrame();
             SkeletonFrame sf = e.OpenSkeletonFrame();
             if (cf == null || sf == null) return;
-            
+
+            //ERKENNE SKELLETON und führe folgendes durch
             mySkeletonArray = new Skeleton[sf.SkeletonArrayLength];
             sf.CopySkeletonDataTo(mySkeletonArray);
             Skeleton currentSkeleton = (from s in mySkeletonArray 
                 where s.TrackingState == SkeletonTrackingState.Tracked
                 select s).FirstOrDefault();
-            if (currentSkeleton != null)
+            if (currentSkeleton != null) // wird Skelett erkannt?
             {
-                Console.WriteLine("Nun hat er ein Skelet erkannt!!!!!!!");
+                SkeletonDa = true;
+            }
+            else
+            {
+                SkeletonDa = false;
             }
 
             cf.CopyPixelDataTo(myColorArray);
 
-            if (null != Application.Current)
-            {
-                Application.Current.Dispatcher.BeginInvoke((PixelData)delegate
-                {
-                    myBitmap.WritePixels(new Int32Rect(0, 0, myBitmap.PixelWidth, myBitmap.PixelHeight),myColorArray,myBitmap.PixelWidth * sizeof(int),0);
-                });
-            }
-            /*
             BitmapSource bs = BitmapSource.Create(640, 480, 96, 96, PixelFormats.Bgr32, null, myColorArray, 640 * 4);
             DrawingVisual DrawingVisual = new DrawingVisual();
             DrawingContext DrawingContext = DrawingVisual.RenderOpen();
@@ -145,7 +140,7 @@ namespace SpielNaoKinect
             Pen legPen = new System.Windows.Media.Pen(new SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 255)), 2);
             Pen spinePen = new System.Windows.Media.Pen(new SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 255, 0)), 2);
 
-
+            
             foreach (Skeleton aSkeleton in mySkeletonArray)
             {
                 DrawBone(aSkeleton.Joints[JointType.HandLeft], aSkeleton.Joints[JointType.WristLeft], armPen, DrawingContext);
@@ -170,63 +165,41 @@ namespace SpielNaoKinect
                 DrawBone(aSkeleton.Joints[JointType.ShoulderCenter], aSkeleton.Joints[JointType.Spine], spinePen, DrawingContext);
                 DrawBone(aSkeleton.Joints[JointType.Spine], aSkeleton.Joints[JointType.HipCenter], spinePen, DrawingContext);
             }
-
             DrawingContext.Close();
             RenderTargetBitmap myTarget = new RenderTargetBitmap(640, 480, 96, 96, PixelFormats.Pbgra32);
             myTarget.Render(DrawingVisual);
-            if (null != Application.Current)
-            {
-                Application.Current.Dispatcher.BeginInvoke((PixelData)delegate
-                {
-                    KinectImage.Source = myTarget;
-                });
-            }
-            */
-
+            KinectImage.Source = myTarget;
         }
 
 
         private void DrawBone(Joint jointFrom, Joint jointTo, Pen aPen, DrawingContext aContext)
         {
 
-            if (jointFrom.TrackingState == JointTrackingState.NotTracked ||
-                     jointTo.TrackingState == JointTrackingState.NotTracked)
+            if (jointFrom.TrackingState == JointTrackingState.NotTracked || jointTo.TrackingState == JointTrackingState.NotTracked)
             {
                 return;
             }
 
-            if (jointFrom.TrackingState == JointTrackingState.Inferred ||
-            jointTo.TrackingState == JointTrackingState.Inferred)
+            if (jointFrom.TrackingState == JointTrackingState.Inferred || jointTo.TrackingState == JointTrackingState.Inferred)
             {
-                ColorImagePoint p1 =
-                  mySensor.CoordinateMapper.MapSkeletonPointToColorPoint
-                    (jointFrom.Position, ColorImageFormat.RgbResolution640x480Fps30);
-                ColorImagePoint p2 =
-                  mySensor.CoordinateMapper.MapSkeletonPointToColorPoint
-                    (jointTo.Position, ColorImageFormat.RgbResolution640x480Fps30);
+                ColorImagePoint p1 = mySensor.CoordinateMapper.MapSkeletonPointToColorPoint(jointFrom.Position, ColorImageFormat.RgbResolution640x480Fps30);
+                ColorImagePoint p2 = mySensor.CoordinateMapper.MapSkeletonPointToColorPoint(jointTo.Position, ColorImageFormat.RgbResolution640x480Fps30);
                 //Thin line
                 aPen.DashStyle = DashStyles.Dash;
-                aContext.DrawLine(aPen, new Point(p1.X, p1.Y),
-                  new Point(p2.X, p2.Y));
-
+                aContext.DrawLine(aPen, new Point(p1.X, p1.Y), new Point(p2.X, p2.Y));
             }
-            if (jointFrom.TrackingState == JointTrackingState.Tracked ||
-            jointTo.TrackingState == JointTrackingState.Tracked)
+
+            if (jointFrom.TrackingState == JointTrackingState.Tracked || jointTo.TrackingState == JointTrackingState.Tracked)
             {
-                ColorImagePoint p1 =
-                  mySensor.CoordinateMapper.MapSkeletonPointToColorPoint
-                     (jointFrom.Position, ColorImageFormat.RgbResolution640x480Fps30);
-                ColorImagePoint p2 =
-                  mySensor.CoordinateMapper.MapSkeletonPointToColorPoint
-                     (jointTo.Position, ColorImageFormat.RgbResolution640x480Fps30);
+                ColorImagePoint p1 = mySensor.CoordinateMapper.MapSkeletonPointToColorPoint(jointFrom.Position, ColorImageFormat.RgbResolution640x480Fps30);
+                ColorImagePoint p2 = mySensor.CoordinateMapper.MapSkeletonPointToColorPoint (jointTo.Position, ColorImageFormat.RgbResolution640x480Fps30);
                 //Thick line
                 aPen.DashStyle = DashStyles.Solid;
-                aContext.DrawLine(aPen, new Point(p1.X, p1.Y),
-                  new Point(p2.X, p2.Y));
+                aContext.DrawLine(aPen, new Point(p1.X, p1.Y), new Point(p2.X, p2.Y));
             }
         }
 
-/*
+
 //WIRD ZZ NICHT BENUTZT - war für SensorColorFrameReady (ohne Skelett) zuständig
         private void SensorColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
         {
@@ -237,7 +210,7 @@ namespace SpielNaoKinect
                     colorFrame.CopyPixelDataTo(myColorArray);
                     if (null != Application.Current)
                     {
-                        Application.Current.Dispatcher.BeginInvoke((PixelData)delegate
+                        Application.Current.Dispatcher.BeginInvoke((ImageVonKinect)delegate
                         {
                             myBitmap.WritePixels(
                             new Int32Rect(0, 0, myBitmap.PixelWidth, myBitmap.PixelHeight),
@@ -249,7 +222,7 @@ namespace SpielNaoKinect
                 }
             }
         }
-*/
+
 
 
 // FENSTER geschlossen
@@ -279,7 +252,14 @@ namespace SpielNaoKinect
 
         private void Button_NeuesSpiel_Click(object sender, RoutedEventArgs e)
         {
-
+            if (SkeletonDa == true)
+            {
+                Console.WriteLine("Benutzer ist vor der Kinect");
+            }
+            else
+            {
+                Console.WriteLine("KEIN Benutzer ist vor der Kinect");
+            }
         }
 
 // THREAD Bewegung
@@ -303,6 +283,11 @@ namespace SpielNaoKinect
         {
             //Ganz am Ende, wenn die Bewegung auch nachgemacht wurde, werden die Buttons wieder klickbar
             while (Th_Bewegung[0].IsAlive) ;
+            while (SkeletonDa == false)
+            {
+                Console.WriteLine("KEIN Benutzer ist vor der Kinect");
+            }
+            Console.WriteLine("Benutzer ist vor der Kinect");
             Init.Bew_Ausgangspos();
             //Hier muss der Spieler die Bewegung nachmachen --> Kinect teil einbinden
             if (null != Application.Current)
