@@ -67,7 +67,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Kinect\Programm.cs" />
+    <Compile Include="Kinect\Angle.cs" />
+    <Compile Include="Kinect\Vektor3.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

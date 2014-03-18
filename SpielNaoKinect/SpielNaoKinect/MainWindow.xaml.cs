@@ -38,12 +38,13 @@ namespace SpielNaoKinect
         public bool Neue_Beweg { get; set; }
         public Thread[] Th_Bewegung;
         public Thread[] Th_Init;
+        public Thread[] Th_Spieler;
         private Init Init;
+        private Angle Angle;
         bool SkeletonDa;
-        int Haeufigkeit;
-        System.Windows.Threading.DispatcherTimer Timer;
-        System.Timers.Timer TTTimer;
-        ObservableCollection<string> TTimerList;
+        int Sekunden;
+        System.Timers.Timer Timer;
+
 
 
 
@@ -107,6 +108,9 @@ namespace SpielNaoKinect
 
                 //Initialisierung Nao
                 Thread_Init();
+
+                //neues Objekt Kinect erzeugen
+                Angle = new Angle(this);
             }
         }
 
@@ -257,35 +261,9 @@ namespace SpielNaoKinect
 
         private void Button_NeuesSpiel_Click(object sender, RoutedEventArgs e)
         {
-            Haeufigkeit = 10;
-            if (null != Application.Current)
-            {
-                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
-                {
-                    LabelTimer.Content = "Noch " + Haeufigkeit.ToString() + " Sekunden Zeit für die Bewegung!";
-                });
-            }
-            Timer = new System.Windows.Threading.DispatcherTimer();
-            Timer.Tick += Timer_Tick;
-            Timer.Interval = new TimeSpan(0, 0, 1);
-            Timer.Start();
+
         }
 
-        private void Test_Timer()
-        {
-            Haeufigkeit = 10;
-            if (null != Application.Current)
-            {
-                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
-                {
-                    LabelTimer.Content = "Noch " + Haeufigkeit.ToString() + " Sekunden Zeit für die Bewegung!";
-                });
-            }
-            Timer = new System.Windows.Threading.DispatcherTimer();
-            Timer.Tick += Timer_Tick;
-            Timer.Interval = new TimeSpan(0, 0, 1);
-            Timer.Start();
-        }
 
 
 // THREAD Bewegung
@@ -305,18 +283,56 @@ namespace SpielNaoKinect
 
         }
 
-        private void TTTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+// TIMER
+        private void Timer_Ausfuehrung(object sender, System.Timers.ElapsedEventArgs e)
         {
-            string message = string.Format("Tick Generated from {0}", Thread.CurrentThread.Name);
-            this.Dispatcher.Invoke((Action)delegate()
+            Sekunden--;
+            if (null != Application.Current)
             {
-                this.TTimerList.Add(message);
-            });
+                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
+                {
+                    if (Sekunden == 0)
+                    {
+                        LabelTimer.Content = "";
+                        LabelBewegung.Content = "";
+                        Timer.Stop();
+                    }
+                    else
+                    {
+                        LabelBewegung.Content = "Mache die Bewegung nach: noch " + Sekunden.ToString() + " Sekunden";
+                        //LabelTimer.Content = "Noch " + Sekunden.ToString() + " Sekunden";
+                    }
+                });
+            }
         }
+
+        private void Thread_Timer()
+        {
+            Sekunden = 10;
+            if (null != Application.Current)
+            {
+                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
+                {
+                    LabelBewegung.Content = "Mache die Bewegung nach: noch " + Sekunden.ToString() + " Sekunden";
+                    //LabelTimer.Content = "Noch " + Sekunden.ToString() + " Sekunden";
+                });
+            }
+            Timer = new System.Timers.Timer();
+            this.Timer.Interval = 1000; //1 sec
+            this.Timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Ausfuehrung);
+            this.Timer.Start();
+        }
+
+
+        private void Thread_Kinect()
+        {
+            Angle.Berechnen();
+        }
+
 
         private void Thread_Bewegung_Gui()
         {
-//Nun hat Nao Beweg. durchgeführt. Überprüfung ob Person vor Kinect ist.
+//Nun hat Nao die Beweg. durchgeführt. Überprüfung ob Person vor Kinect ist.
             while (Th_Bewegung[0].IsAlive) ;
 
             if (SkeletonDa == false)
@@ -331,43 +347,21 @@ namespace SpielNaoKinect
             }
             while (SkeletonDa == false) ;
 
-            //Test_Timer();
 
-//Nun hat Kinect eine Person erkannt
-            TTTimer = new System.Timers.Timer();
-            TTimerList = new ObservableCollection<string>();
-            this.TTTimer.Interval = 1000; //1 sec
-            this.TTTimer.Elapsed += new System.Timers.ElapsedEventHandler(TTTimer_Elapsed);
-            this.TTTimer.Start();
-            this.TTimerList.Clear();
-            //Console.WriteLine(this.TTimerList[0]);
-
-            /*
-            if (null != Application.Current)
-            {
-                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
-                {
-                    LabelTimer.Content = "Noch " + Haeufigkeit.ToString() + " Sekunden Zeit für die Bewegung!";
-                });
-            }
+//Nun hat Kinect eine Person erkannt. Starte Timer
+            Th_Spieler = new Thread[2];
+            Th_Spieler[0] = new Thread(new ThreadStart(Thread_Timer));
+            Th_Spieler[1] = new Thread(new ThreadStart(Thread_Kinect));
+            Th_Spieler[0].SetApartmentState(ApartmentState.STA);
+            Th_Spieler[1].SetApartmentState(ApartmentState.STA);
+            Th_Spieler[0].Start();
+            Th_Spieler[1].Start();
             
-            Timer = new System.Windows.Threading.DispatcherTimer();
-            Timer.Tick += Timer_Tick;
-            Timer.Interval = new TimeSpan(0, 0, 1);
-            Timer.Start();
 
-            if (null != Application.Current)
-            {
-                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
-                {
-                    LabelBewegung.Content = "Mache nun die vorgeführte Bewegung nach";
-                    //LabelTimer.Content = "Timer läuft nun herunter";
-                });
-            }
-            */
-
+//Nao geht in seine Ausgangsposition
             Init.Bew_Ausgangspos();
-            //Hier muss der Spieler die Bewegung nachmachen --> Kinect teil einbinden
+
+//Wenn Bewegung und Überprüfung fertig sind: Buttons einblenden
             if (null != Application.Current)
             {
                 Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
@@ -381,25 +375,7 @@ namespace SpielNaoKinect
             }
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            Haeufigkeit--;
-            if (null != Application.Current)
-            {
-                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
-                {
-                    if (Haeufigkeit == 0)
-                    {
-                        LabelTimer.Content = "";
-                        Timer.Stop();
-                    }
-                    else
-                    {
-                        LabelTimer.Content = "Noch " + Haeufigkeit.ToString() + " Sekunden Zeit für die Bewegung!";
-                    }
-                });
-            }
-        }
+
 
 //Nao führt eine Bewegung aus
         private void Thread_Bewegung_Nao()
@@ -438,32 +414,5 @@ namespace SpielNaoKinect
                 });
             }
         }
-
-// TIMER
-        /*
-        //AB HIER TIMER... KANN ABER NICHT IN THREAD, DA THREAD NICHT AUF GUI ZUGREIFEN KANN
-        private System.Windows.Forms.Timer Timer;
-        private int Haeufigkeit = 10;
-        private void Button_Beenden_Click(object sender, RoutedEventArgs e)
-        {
-            textboxLog.Visibility = Visibility.Visible;
-            textboxLog.Text = "Noch " + Haeufigkeit.ToString() + " Sekunden Zeit für die Bewegung!";
-            Timer = new System.Windows.Forms.Timer();
-            Timer.Interval = 1000;
-            Timer.Enabled = true;
-            Timer.Tick += new System.EventHandler(Timer_Tick);
-        }
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            Haeufigkeit--;
-            textboxLog.Text = "Noch " + Haeufigkeit.ToString() + " Sekunden Zeit für die Bewegung!";
-            if (Haeufigkeit == 0)
-            {
-                Timer.Stop();
-                textboxLog.Visibility = Visibility.Hidden;
-                Haeufigkeit = 10;
-            }
-        }
-         * */
     }
 }
