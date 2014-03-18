@@ -17,6 +17,7 @@ using SpielNaoKinect.Nao;
 using SpielNaoKinect.Kinect;
 using Microsoft.Kinect;
 using System.IO;
+using System.Collections.ObjectModel;
 
 
 
@@ -39,6 +40,10 @@ namespace SpielNaoKinect
         public Thread[] Th_Init;
         private Init Init;
         bool SkeletonDa;
+        int Haeufigkeit;
+        System.Windows.Threading.DispatcherTimer Timer;
+        System.Timers.Timer TTTimer;
+        ObservableCollection<string> TTimerList;
 
 
 
@@ -252,20 +257,41 @@ namespace SpielNaoKinect
 
         private void Button_NeuesSpiel_Click(object sender, RoutedEventArgs e)
         {
-            if (SkeletonDa == true)
+            Haeufigkeit = 10;
+            if (null != Application.Current)
             {
-                Console.WriteLine("Benutzer ist vor der Kinect");
+                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
+                {
+                    LabelTimer.Content = "Noch " + Haeufigkeit.ToString() + " Sekunden Zeit für die Bewegung!";
+                });
             }
-            else
-            {
-                Console.WriteLine("KEIN Benutzer ist vor der Kinect");
-            }
+            Timer = new System.Windows.Threading.DispatcherTimer();
+            Timer.Tick += Timer_Tick;
+            Timer.Interval = new TimeSpan(0, 0, 1);
+            Timer.Start();
         }
+
+        private void Test_Timer()
+        {
+            Haeufigkeit = 10;
+            if (null != Application.Current)
+            {
+                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
+                {
+                    LabelTimer.Content = "Noch " + Haeufigkeit.ToString() + " Sekunden Zeit für die Bewegung!";
+                });
+            }
+            Timer = new System.Windows.Threading.DispatcherTimer();
+            Timer.Tick += Timer_Tick;
+            Timer.Interval = new TimeSpan(0, 0, 1);
+            Timer.Start();
+        }
+
 
 // THREAD Bewegung
         private void Thread_Bewegung()
         {
-            LabelBewegung.Visibility = Visibility.Visible;
+            LabelBewegung.Content = "Nao macht eine Bewegung";
             Button_NeueBewegung.IsEnabled = false;
             Button_Wiederholen.IsEnabled = false;
             Button_NeuesSpiel.IsEnabled = false;
@@ -279,22 +305,75 @@ namespace SpielNaoKinect
 
         }
 
+        private void TTTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            string message = string.Format("Tick Generated from {0}", Thread.CurrentThread.Name);
+            this.Dispatcher.Invoke((Action)delegate()
+            {
+                this.TTimerList.Add(message);
+            });
+        }
+
         private void Thread_Bewegung_Gui()
         {
-            //Ganz am Ende, wenn die Bewegung auch nachgemacht wurde, werden die Buttons wieder klickbar
+//Nun hat Nao Beweg. durchgeführt. Überprüfung ob Person vor Kinect ist.
             while (Th_Bewegung[0].IsAlive) ;
-            while (SkeletonDa == false)
+
+            if (SkeletonDa == false)
             {
-                Console.WriteLine("KEIN Benutzer ist vor der Kinect");
+                if (null != Application.Current)
+                {
+                    Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
+                    {
+                        LabelBewegung.Content = "Stelle dich vor die Kinect...";
+                    });
+                }
             }
-            Console.WriteLine("Benutzer ist vor der Kinect");
+            while (SkeletonDa == false) ;
+
+            //Test_Timer();
+
+//Nun hat Kinect eine Person erkannt
+            TTTimer = new System.Timers.Timer();
+            TTimerList = new ObservableCollection<string>();
+            this.TTTimer.Interval = 1000; //1 sec
+            this.TTTimer.Elapsed += new System.Timers.ElapsedEventHandler(TTTimer_Elapsed);
+            this.TTTimer.Start();
+            this.TTimerList.Clear();
+            //Console.WriteLine(this.TTimerList[0]);
+
+            /*
+            if (null != Application.Current)
+            {
+                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
+                {
+                    LabelTimer.Content = "Noch " + Haeufigkeit.ToString() + " Sekunden Zeit für die Bewegung!";
+                });
+            }
+            
+            Timer = new System.Windows.Threading.DispatcherTimer();
+            Timer.Tick += Timer_Tick;
+            Timer.Interval = new TimeSpan(0, 0, 1);
+            Timer.Start();
+
+            if (null != Application.Current)
+            {
+                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
+                {
+                    LabelBewegung.Content = "Mache nun die vorgeführte Bewegung nach";
+                    //LabelTimer.Content = "Timer läuft nun herunter";
+                });
+            }
+            */
+
             Init.Bew_Ausgangspos();
             //Hier muss der Spieler die Bewegung nachmachen --> Kinect teil einbinden
             if (null != Application.Current)
             {
                 Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
                 {
-                    LabelBewegung.Visibility = Visibility.Hidden;
+                    LabelTimer.Content = "";
+                    LabelBewegung.Content = "";
                     Button_NeueBewegung.IsEnabled = true;
                     Button_Wiederholen.IsEnabled = true;
                     Button_NeuesSpiel.IsEnabled = true;
@@ -302,6 +381,27 @@ namespace SpielNaoKinect
             }
         }
 
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            Haeufigkeit--;
+            if (null != Application.Current)
+            {
+                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
+                {
+                    if (Haeufigkeit == 0)
+                    {
+                        LabelTimer.Content = "";
+                        Timer.Stop();
+                    }
+                    else
+                    {
+                        LabelTimer.Content = "Noch " + Haeufigkeit.ToString() + " Sekunden Zeit für die Bewegung!";
+                    }
+                });
+            }
+        }
+
+//Nao führt eine Bewegung aus
         private void Thread_Bewegung_Nao()
         {
             Init.Bew_Winkel();
@@ -310,7 +410,6 @@ namespace SpielNaoKinect
 // THREAD Initialisierungen - einmal aufgerufen!
         private void Thread_Init()
         {
-            LabelBewegung.Visibility = Visibility.Visible;
             Th_Init = new Thread[2];
             Th_Init[0] = new Thread(new ThreadStart(Thread_Init_Nao));
             Th_Init[1] = new Thread(new ThreadStart(Thread_Init_Gui));
@@ -335,7 +434,6 @@ namespace SpielNaoKinect
             {
                 Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
                 {
-                    LabelBewegung.Visibility = Visibility.Hidden;
                     Button_NeueBewegung.IsEnabled = true;
                 });
             }
