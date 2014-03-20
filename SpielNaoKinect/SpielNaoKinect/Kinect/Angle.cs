@@ -5,18 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+//using System.Windows.Media.Media3D.Converters;
+
 
 namespace SpielNaoKinect.Kinect
 {
     public class Angle
     {
-        private WindowAngles f1;
+        private Form1 f1;
         private MainWindow mainWindow;
         public delegate void GuiAnzeigen();
         public Angle(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-            f1 = new WindowAngles();
+            f1 = new Form1();
             f1.Show();
         }
 
@@ -26,13 +28,14 @@ namespace SpielNaoKinect.Kinect
             if (currentSkeleton != null)
             {
                 Joint ElbowRight = currentSkeleton.Joints[JointType.ElbowRight];
-                if (null != Application.Current)
+                /*if (null != Application.Current)
                 {
                     Application.Current.Dispatcher.BeginInvoke((GuiAnzeigen)delegate
                     {
                         f1.ZeigeDaten(ElbowRight.Position.X);
                     });
                 }
+                 * */
             }
         }
 

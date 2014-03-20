@@ -70,11 +70,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Kinect\Angle.cs" />
-    <Compile Include="Kinect\WindowAngles.cs">
+    <Compile Include="Kinect\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Kinect\WindowAngles.Designer.cs">
-      <DependentUpon>WindowAngles.cs</DependentUpon>
+    <Compile Include="Kinect\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Kinect\Vektor3.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -113,8 +113,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Kinect\WindowAngles.resx">
-      <DependentUpon>WindowAngles.cs</DependentUpon>
+    <EmbeddedResource Include="Kinect\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

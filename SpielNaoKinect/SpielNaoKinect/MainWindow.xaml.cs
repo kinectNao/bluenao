@@ -43,6 +43,7 @@ namespace SpielNaoKinect
         private Angle Angle;
         private Skeleton currentSkeleton;
         bool SkeletonDa;
+        bool TimerEnde;
         int Sekunden;
         System.Timers.Timer Timer;
 
@@ -297,6 +298,7 @@ namespace SpielNaoKinect
                         LabelTimer.Content = "";
                         LabelBewegung.Content = "";
                         Timer.Stop();
+                        TimerEnde = true;
                     }
                     else
                     {
@@ -307,8 +309,13 @@ namespace SpielNaoKinect
             }
         }
 
+
+
+
+
         private void Thread_Timer()
         {
+            TimerEnde = false;
             Sekunden = 10;
             if (null != Application.Current)
             {
@@ -324,16 +331,15 @@ namespace SpielNaoKinect
             this.Timer.Start();
         }
 
-
         private void Thread_Kinect()
         {
-            while(true)
-            {   
+            //while (Th_Spieler[0].IsAlive)
+            while (TimerEnde == false)
+            {
                 Angle.Berechnen(currentSkeleton);
             }
-            /////////////////////////////////////////////////////////////////////////////////////////////////
-            
         }
+        
 
 
         private void Thread_Bewegung_Gui()
@@ -367,7 +373,10 @@ namespace SpielNaoKinect
 //Nao geht in seine Ausgangsposition
             Init.Bew_Ausgangspos();
 
-//Wenn Bewegung und Überprüfung fertig sind: Buttons einblenden
+//Timer ist fertig
+            while (TimerEnde == false) ;
+
+//Buttons einblenden
             if (null != Application.Current)
             {
                 Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate

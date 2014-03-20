@@ -10,17 +10,11 @@ using System.Windows.Forms;
 
 namespace SpielNaoKinect.Kinect
 {
-    public partial class WindowAngles : Form
+    public partial class Form1 : Form
     {
-        public WindowAngles()
+        public Form1()
         {
             InitializeComponent();
         }
-
-        public void ZeigeDaten(float p)
-        {
-            XElbowRight.Text = p.ToString();
-        }
-
     }
 }

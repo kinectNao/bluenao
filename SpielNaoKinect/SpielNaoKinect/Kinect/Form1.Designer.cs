@@ -1,6 +1,6 @@
 ﻿namespace SpielNaoKinect.Kinect
 {
-    partial class WindowAngles
+    partial class Form1
     {
         /// <summary>
         /// Required designer variable.
@@ -28,25 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.XElbowRight = new System.Windows.Forms.Label();
+            this.Label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // XElbowRight
+            // Label1
             // 
-            this.XElbowRight.AutoSize = true;
-            this.XElbowRight.Location = new System.Drawing.Point(27, 20);
-            this.XElbowRight.Name = "XElbowRight";
-            this.XElbowRight.Size = new System.Drawing.Size(35, 13);
-            this.XElbowRight.TabIndex = 0;
-            this.XElbowRight.Text = "label1";
+            this.Label1.AutoSize = true;
+            this.Label1.Location = new System.Drawing.Point(27, 20);
+            this.Label1.Name = "Label1";
+            this.Label1.Size = new System.Drawing.Size(35, 13);
+            this.Label1.TabIndex = 0;
+            this.Label1.Text = "label1";
             // 
-            // WindowAngles
+            // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(310, 227);
-            this.Controls.Add(this.XElbowRight);
-            this.Name = "WindowAngles";
+            this.Controls.Add(this.Label1);
+            this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -55,9 +55,13 @@
 
         #endregion
 
-        private System.Windows.Forms.Label XElbowRight;
+        private System.Windows.Forms.Label Label1;
 
-
+        public void ZeigeDaten(float p)
+        {
+            //Label1.Text = p.ToString();
+            Label1.Text = "Test";
+        }
 
     }
 }
