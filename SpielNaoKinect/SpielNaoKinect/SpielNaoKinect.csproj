@@ -58,6 +58,8 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -68,6 +70,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Kinect\Angle.cs" />
+    <Compile Include="Kinect\WindowAngles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Kinect\WindowAngles.Designer.cs">
+      <DependentUpon>WindowAngles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Kinect\Vektor3.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -103,6 +111,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Kinect\WindowAngles.resx">
+      <DependentUpon>WindowAngles.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

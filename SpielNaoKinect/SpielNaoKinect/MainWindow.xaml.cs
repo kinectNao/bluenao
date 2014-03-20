@@ -41,6 +41,7 @@ namespace SpielNaoKinect
         public Thread[] Th_Spieler;
         private Init Init;
         private Angle Angle;
+        private Skeleton currentSkeleton;
         bool SkeletonDa;
         int Sekunden;
         System.Timers.Timer Timer;
@@ -125,7 +126,7 @@ namespace SpielNaoKinect
             //ERKENNE SKELLETON und führe folgendes durch
             mySkeletonArray = new Skeleton[sf.SkeletonArrayLength];
             sf.CopySkeletonDataTo(mySkeletonArray);
-            Skeleton currentSkeleton = (from s in mySkeletonArray 
+            currentSkeleton = (from s in mySkeletonArray 
                 where s.TrackingState == SkeletonTrackingState.Tracked
                 select s).FirstOrDefault();
             if (currentSkeleton != null) // wird Skelett erkannt?
@@ -326,7 +327,12 @@ namespace SpielNaoKinect
 
         private void Thread_Kinect()
         {
-            Angle.Berechnen();
+            while(true)
+            {   
+                Angle.Berechnen(currentSkeleton);
+            }
+            /////////////////////////////////////////////////////////////////////////////////////////////////
+            
         }
 
 

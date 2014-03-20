@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 
 namespace SpielNaoKinect.Kinect
 {
+    /*
         [Serializable]
         public struct Vector3 : IEquatable<Vector3>
         {
-            public static bool operator ==(Vector3 v1, Vector3 v2) 
+            public static bool operator == (Vector3 v1, Vector3 v2) 
             {
                 return v1.Equals(v2);
             }
+            
+
             public double X;
             public double Y;
             public double Z;
@@ -205,4 +208,5 @@ namespace SpielNaoKinect.Kinect
                 this = SqrtComponents(this);
             }
         }
+     * */
 }
