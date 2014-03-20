@@ -27,15 +27,15 @@ namespace SpielNaoKinect.Kinect
         {
             if (currentSkeleton != null)
             {
+                //Console.WriteLine("test");
                 Joint ElbowRight = currentSkeleton.Joints[JointType.ElbowRight];
-                /*if (null != Application.Current)
+                if (null != Application.Current)
                 {
                     Application.Current.Dispatcher.BeginInvoke((GuiAnzeigen)delegate
                     {
                         f1.ZeigeDaten(ElbowRight.Position.X);
                     });
                 }
-                 * */
             }
         }
 

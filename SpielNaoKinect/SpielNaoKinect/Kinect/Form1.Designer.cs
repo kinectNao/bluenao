@@ -59,8 +59,7 @@
 
         public void ZeigeDaten(float p)
         {
-            //Label1.Text = p.ToString();
-            Label1.Text = "Test";
+            Label1.Text = p.ToString();
         }
 
     }

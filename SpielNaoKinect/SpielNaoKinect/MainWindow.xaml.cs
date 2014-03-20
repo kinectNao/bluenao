@@ -336,6 +336,7 @@ namespace SpielNaoKinect
             //while (Th_Spieler[0].IsAlive)
             while (TimerEnde == false)
             {
+                //Console.WriteLine("test");
                 Angle.Berechnen(currentSkeleton);
             }
         }
