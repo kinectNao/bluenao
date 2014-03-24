@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-//using System.Windows.Media.Media3D.Converters;
+using System.Windows.Media.Media3D;
 
 
 namespace SpielNaoKinect.Kinect
@@ -14,40 +14,35 @@ namespace SpielNaoKinect.Kinect
     {
         private Form1 f1;
         private MainWindow mainWindow;
+        private bool FormErzeugt = false;
         public delegate void GuiAnzeigen();
+        private int _RotationOffset = 0;
+        private bool _ReverseCoordinates = false;
+
         public Angle(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-            f1 = new Form1();
-            f1.Show();
+            
         }
-
 
         public void Berechnen(Skeleton currentSkeleton)
         {
             if (currentSkeleton != null)
             {
-                //Console.WriteLine("test");
                 Joint ElbowRight = currentSkeleton.Joints[JointType.ElbowRight];
-                if (null != Application.Current)
-                {
-                    Application.Current.Dispatcher.BeginInvoke((GuiAnzeigen)delegate
-                    {
-                        f1.ZeigeDaten(ElbowRight.Position.X);
-                    });
-                }
+                Joint ElbowLeft = currentSkeleton.Joints[JointType.ElbowLeft];
+                Joint HipLeft = currentSkeleton.Joints[JointType.HipLeft];
+                Joint HipRight = currentSkeleton.Joints[JointType.HipRight];
+                Joint ShoulderLeft = currentSkeleton.Joints[JointType.ShoulderLeft];
+                Joint ShoulderRight = currentSkeleton.Joints[JointType.ShoulderRight];
+                Joint WristRight = currentSkeleton.Joints[JointType.WristRight];
+                Joint WristLeft = currentSkeleton.Joints[JointType.WristLeft];
+
+                GetBodySegmentAngle(ElbowLeft, ShoulderLeft, HipLeft);
             }
         }
 
-
-        /*
-         private int _RotationOffset = 0;
-         private bool _ReverseCoordinates = false;
-         private Joint _JointId1;
-         private Joint _JointId2;
-         private Joint _JointId3;
-
-         public int RotationOffset
+        public int RotationOffset
          {
              get { return _RotationOffset; }
              set
@@ -64,13 +59,6 @@ namespace SpielNaoKinect.Kinect
              set { _ReverseCoordinates = value; }
          }
 
-         public void Berrechnen(Joint jointId1, Joint jointId2, Joint jointId3)
-         {
-             _JointId1 = jointId1;
-             _JointId2 = jointId2;
-             _JointId3 = jointId3;
-         }
-
          public double CalculateReverseCoordinates(double degrees)
          {
              return (-degrees + 180) % 360;
@@ -84,22 +72,17 @@ namespace SpielNaoKinect.Kinect
          /// <param name="joint2">Must be between joint1 and joint3</param>
          /// <param name="joint3"></param>
          /// <returns>The angle in degrees between the specified body segmeents.</returns>
-         public double GetBodySegmentAngle(JointCollection joints)
+         public double GetBodySegmentAngle(Joint joint1, Joint joint2, Joint joint3)
          {
-             Joint joint1 = joints[_JointId1.JointType];
-             Joint joint2 = joints[_JointId2.JointType];
-             Joint joint3 = joints[_JointId3.JointType];
 
-             Vector3 vectorJoint1ToJoint2 = new Vector3(joint1.Position.X - joint2.Position.X, joint1.Position.Y - joint2.Position.Y, 0);
-             Vector3 vectorJoint2ToJoint3 = new Vector3(joint2.Position.X - joint3.Position.X, joint2.Position.Y - joint3.Position.Y, 0);
-             Vector3.Normalize(vectorJoint1ToJoint2);
-             Vector3.Normalize(vectorJoint2ToJoint3);
-             //vectorJoint1ToJoint2.Normalize();
-             //vectorJoint2ToJoint3.Normalize();
+             Vector3D vectorJoint1ToJoint2 = new Vector3D(joint1.Position.X - joint2.Position.X, joint1.Position.Y - joint2.Position.Y, 0);
+             Vector3D vectorJoint2ToJoint3 = new Vector3D(joint2.Position.X - joint3.Position.X, joint2.Position.Y - joint3.Position.Y, 0);
+             vectorJoint1ToJoint2.Normalize();
+             vectorJoint2ToJoint3.Normalize();
 
-             Vector3 crossProduct = Vector3.Cross(vectorJoint1ToJoint2, vectorJoint2ToJoint3);
+             Vector3D crossProduct = Vector3D.CrossProduct(vectorJoint1ToJoint2, vectorJoint2ToJoint3);
              double crossProductLength = crossProduct.Z;
-             double dotProduct = Vector3.Dot(vectorJoint1ToJoint2, vectorJoint2ToJoint3);
+             double dotProduct = Vector3D.DotProduct(vectorJoint1ToJoint2, vectorJoint2ToJoint3);
              double segmentAngle = Math.Atan2(crossProductLength, dotProduct);
 
              // Convert the result to degrees.
@@ -117,10 +100,6 @@ namespace SpielNaoKinect.Kinect
 
              Console.WriteLine(degrees);
              return degrees;
-         }
-
-         */
-
-        
+         }  
     }
 }

@@ -299,11 +299,11 @@ namespace SpielNaoKinect
                         LabelBewegung.Content = "";
                         Timer.Stop();
                         TimerEnde = true;
+                        Console.WriteLine("Timer ist fertig; also auf 0");
                     }
                     else
                     {
                         LabelBewegung.Content = "Mache die Bewegung nach: noch " + Sekunden.ToString() + " Sekunden";
-                        //LabelTimer.Content = "Noch " + Sekunden.ToString() + " Sekunden";
                     }
                 });
             }
@@ -322,7 +322,6 @@ namespace SpielNaoKinect
                 Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
                 {
                     LabelBewegung.Content = "Mache die Bewegung nach: noch " + Sekunden.ToString() + " Sekunden";
-                    //LabelTimer.Content = "Noch " + Sekunden.ToString() + " Sekunden";
                 });
             }
             Timer = new System.Timers.Timer();
@@ -336,7 +335,6 @@ namespace SpielNaoKinect
             //while (Th_Spieler[0].IsAlive)
             while (TimerEnde == false)
             {
-                //Console.WriteLine("test");
                 Angle.Berechnen(currentSkeleton);
             }
         }
@@ -369,7 +367,6 @@ namespace SpielNaoKinect
             Th_Spieler[1].SetApartmentState(ApartmentState.STA);
             Th_Spieler[0].Start();
             Th_Spieler[1].Start();
-            
 
 //Nao geht in seine Ausgangsposition
             Init.Bew_Ausgangspos();
