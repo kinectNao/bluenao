@@ -23,19 +23,19 @@ namespace SpielNaoKinect.Nao
         public void PositionLArm()
         {
             StopThread_Winkel = false;
-            int HaeufigkeitWinkel = 0;
             while (!StopThread_Winkel)
             {
-                string name = "LArm";
-                int space = 2;
-                bool useSensorValues = true;
+                string name = "Joints";
+                bool useSensors = false;
+                /*int space = 2;
+
                 List<float> result = new List<float>();
                 result = motion.getPosition(name, space, useSensorValues);
-                HaeufigkeitWinkel++;
                 for (int i = 0; i < 6; i++)
                 {
-                   // Console.WriteLine("LArm: " + HaeufigkeitWinkel + ". Auswertung: Wert an Stelle " + i + " ist:  " + result.ElementAt(i));
-                }
+                   Console.WriteLine("LArm: Wert an Stelle " + i + " ist:  " + result.ElementAt(i));
+                }*/
+                Console.WriteLine(motion.getAngles(name, useSensors).Last().ToString());
             }
         }
 

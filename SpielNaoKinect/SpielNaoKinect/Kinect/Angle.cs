@@ -14,15 +14,14 @@ namespace SpielNaoKinect.Kinect
     {
         private Form1 f1;
         private MainWindow mainWindow;
-        private bool FormErzeugt = false;
         public delegate void GuiAnzeigen();
         private int _RotationOffset = 0;
         private bool _ReverseCoordinates = false;
-
+        private Vergleich Vergleich;
         public Angle(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-            
+            Vergleich = new Vergleich();
         }
 
         public void Berechnen(Skeleton currentSkeleton)
@@ -38,7 +37,8 @@ namespace SpielNaoKinect.Kinect
                 Joint WristRight = currentSkeleton.Joints[JointType.WristRight];
                 Joint WristLeft = currentSkeleton.Joints[JointType.WristLeft];
 
-                GetBodySegmentAngle(ElbowLeft, ShoulderLeft, HipLeft);
+                //Console.WriteLine(GetBodySegmentAngle(ElbowRight, ShoulderRight, HipRight));
+                Vergleich.Achsel_links(GetBodySegmentAngle(ElbowLeft, ShoulderLeft, HipLeft));
             }
         }
 
@@ -98,7 +98,7 @@ namespace SpielNaoKinect.Kinect
                  degrees = CalculateReverseCoordinates(degrees);
              }
 
-             Console.WriteLine(degrees);
+             //Console.WriteLine(degrees);
              return degrees;
          }  
     }
