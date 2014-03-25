@@ -10,17 +10,19 @@ namespace SpielNaoKinect.Nao
     public class Bewegen
     {
         private RobotPostureProxy rpp;
+        private MotionProxy motion;
         private int Bewegungsnummer;
 
-        public Bewegen(RobotPostureProxy rpp)
+        public Bewegen(RobotPostureProxy rpp, MotionProxy motion)
         {
             this.rpp = rpp;
+            this.motion = motion;
         }
 
         public void Bewegung_erzeugen()
         {
             Random r = new Random();
-            Bewegungsnummer= r.Next(1, 8);
+            Bewegungsnummer= r.Next(1, 2);
             Bewegung();
         }
 
@@ -46,7 +48,25 @@ namespace SpielNaoKinect.Nao
                 case 1:
                     try
                     {
-                        rpp.goToPosture("Sit", 1);
+                        /*motion.setAngles("LElbowRoll", 0f, 0.08f);
+                        motion.setAngles("LShoulderPitch", -1.57079633f, 0.08f);
+                        motion.setAngles("RElbowRoll", 0f, 0.08f);
+                        motion.setAngles("RShoulderPitch", -1.57079633f, 0.08f);
+                        */
+
+                        int IDMotion = motion.post.angleInterpolationWithSpeed("LShoulderPitch", -1.57079633f, 0.08f);
+                        string name = "LShoulderPitch";
+                        bool useSensorValues = false;
+                        while(motion.isRunning(IDMotion))
+                        {
+                            Console.WriteLine("Winkel Arm " + motion.getAngles(name, useSensorValues).Last().ToString());
+                        }
+
+
+                        //motion.wait(IDMotion, 30000);
+                        //while (motion.isRunning(IDMotion)) ;
+                        Console.WriteLine("Ende while");
+                        //rpp.goToPosture("Sit", 1);
                     }
                     catch (Exception e)
                     {

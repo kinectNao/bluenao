@@ -25,17 +25,20 @@ namespace SpielNaoKinect.Nao
             StopThread_Winkel = false;
             while (!StopThread_Winkel)
             {
-                string name = "Joints";
-                bool useSensors = false;
-                /*int space = 2;
-
+                //Console.WriteLine("sdffgv");
+                
+                string name = "LArm";
+                bool useSensorValues = false;
+                /*
+                int space = 2;
                 List<float> result = new List<float>();
                 result = motion.getPosition(name, space, useSensorValues);
-                for (int i = 0; i < 6; i++)
+                for (int i = 3; i < 4; i++)
                 {
-                   Console.WriteLine("LArm: Wert an Stelle " + i + " ist:  " + result.ElementAt(i));
+                   Console.WriteLine("Wert an Stelle " + i + " ist:  " + result.ElementAt(i));
                 }*/
-                Console.WriteLine(motion.getAngles(name, useSensors).Last().ToString());
+                 
+                //Console.WriteLine("Winkel Arm " + motion.getAngles(name, useSensorValues).Last().ToString());
             }
         }
 
