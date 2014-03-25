@@ -12,7 +12,6 @@ namespace SpielNaoKinect.Kinect
 {
     public class Angle
     {
-        private Form1 f1;
         private MainWindow mainWindow;
         public delegate void GuiAnzeigen();
         private int _RotationOffset = 0;

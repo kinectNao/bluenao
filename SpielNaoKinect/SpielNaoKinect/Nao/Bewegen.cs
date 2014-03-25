@@ -12,6 +12,13 @@ namespace SpielNaoKinect.Nao
         private RobotPostureProxy rpp;
         private MotionProxy motion;
         private int Bewegungsnummer;
+        List<float> LShoulderPitch = new List<float>();
+        List<float> RShoulderPitch = new List<float>();
+        List<float> LShoulderRoll = new List<float>();
+        List<float> RShoulderRoll = new List<float>();
+        List<float> LElbowRoll = new List<float>();
+        List<float> RElbowRoll = new List<float>();
+
 
         public Bewegen(RobotPostureProxy rpp, MotionProxy motion)
         {
@@ -48,25 +55,20 @@ namespace SpielNaoKinect.Nao
                 case 1:
                     try
                     {
-                        /*motion.setAngles("LElbowRoll", 0f, 0.08f);
-                        motion.setAngles("LShoulderPitch", -1.57079633f, 0.08f);
-                        motion.setAngles("RElbowRoll", 0f, 0.08f);
-                        motion.setAngles("RShoulderPitch", -1.57079633f, 0.08f);
-                        */
+                        string[] Joints = { "LElbowRoll", "LShoulderPitch", "RElbowRoll", "RShoulderPitch" };
+                        float[] Winkel = { 0f, -1.57079633f, 0f, -1.57079633f };
+                        int IDMotion = motion.post.angleInterpolationWithSpeed(Joints, Winkel, 0.08f);
 
-                        int IDMotion = motion.post.angleInterpolationWithSpeed("LShoulderPitch", -1.57079633f, 0.08f);
-                        string name = "LShoulderPitch";
-                        bool useSensorValues = false;
                         while(motion.isRunning(IDMotion))
                         {
-                            Console.WriteLine("Winkel Arm " + motion.getAngles(name, useSensorValues).Last().ToString());
+                            LShoulderPitch.Add(motion.getAngles("LShoulderPitch", false).Last());
+                            RShoulderPitch.Add(motion.getAngles("RShoulderPitch", false).Last());
+                            LShoulderRoll.Add(motion.getAngles("LShoulderRoll", false).Last());
+                            RShoulderRoll.Add(motion.getAngles("RShoulderRoll", false).Last());
+                            LElbowRoll.Add(motion.getAngles("LElbowRoll", false).Last());
+                            RElbowRoll.Add(motion.getAngles("RElbowRoll", false).Last());
                         }
-
-
-                        //motion.wait(IDMotion, 30000);
-                        //while (motion.isRunning(IDMotion)) ;
-                        Console.WriteLine("Ende while");
-                        //rpp.goToPosture("Sit", 1);
+                        Console.WriteLine("Anzahl der Werte " + LShoulderPitch.Count);
                     }
                     catch (Exception e)
                     {

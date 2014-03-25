@@ -70,12 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Kinect\Angle.cs" />
-    <Compile Include="Kinect\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Kinect\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Kinect\Vergleich.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -83,7 +77,6 @@
     <Compile Include="Nao\Bewegen.cs" />
     <Compile Include="Nao\Init.cs" />
     <Compile Include="Nao\Start.cs" />
-    <Compile Include="Nao\Winkel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -111,11 +104,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Kinect\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

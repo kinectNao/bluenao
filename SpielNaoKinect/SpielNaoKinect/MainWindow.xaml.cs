@@ -316,7 +316,7 @@ namespace SpielNaoKinect
         private void Thread_Timer()
         {
             TimerEnde = false;
-            Sekunden = 10;
+            Sekunden = 30;
             if (null != Application.Current)
             {
                 Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
