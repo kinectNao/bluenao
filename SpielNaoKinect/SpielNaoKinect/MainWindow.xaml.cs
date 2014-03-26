@@ -263,12 +263,11 @@ namespace SpielNaoKinect
 
         private void Button_NeuesSpiel_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
 
 
-// THREAD Bewegung
+        // THREAD Bewegung
         private void Thread_Bewegung()
         {
             LabelBewegung.Content = "Nao macht eine Bewegung";
@@ -316,7 +315,7 @@ namespace SpielNaoKinect
         private void Thread_Timer()
         {
             TimerEnde = false;
-            Sekunden = 30;
+            Sekunden = 10;
             if (null != Application.Current)
             {
                 Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate

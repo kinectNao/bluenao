@@ -7,14 +7,54 @@ using SpielNaoKinect;
 using Microsoft.Kinect;
 using System.Windows.Media.Media3D;
 
+
 namespace SpielNaoKinect.Kinect
 {
     public class Vergleich
     {
-        public void Achsel_links (double degrees)
+        public void Achsel_links_roll(double degrees)
         {
-           // if (WinkelNao == degrees);
-            Console.WriteLine(degrees);
+            // if (WinkelNao == degrees);
+            Console.WriteLine("Winkel der linken Achsel (Roll): " + degrees);
+            System.Threading.Thread.Sleep(500);
         }
+
+        public void Achsel_rechts_roll(double degrees)
+        {
+            // if (WinkelNao == degrees);
+            Console.WriteLine("Winkel der rechten Achsel (Roll): " + degrees);
+            System.Threading.Thread.Sleep(500);
+        }
+
+        public void Ellenbogen_rechts_roll(double degrees)
+        {
+            // if (WinkelNao == degrees);
+            Console.WriteLine("Winkel des rechten Ellenbogens (Roll): " + degrees);
+            System.Threading.Thread.Sleep(500);
+        }
+
+
+        public void Ellenbogen_links_roll(double degrees)
+        {
+            // if (WinkelNao == degrees);
+            Console.WriteLine("Winkel des linken Ellenbogens (Roll): " + degrees);
+            System.Threading.Thread.Sleep(500);
+        }
+
+
+        public void Achsel_rechts_pitch(double degrees)
+        {
+            // if (WinkelNao == degrees);
+            Console.WriteLine("Winkel der rechten Achsel (Pitch): " + degrees);
+            System.Threading.Thread.Sleep(500);
+        }
+
+        public void Achsel_links_pitch(double degrees)
+        {
+            // if (WinkelNao == degrees);
+            Console.WriteLine("Winkel der linken Achsel (Pitch): " + degrees);
+            System.Threading.Thread.Sleep(500);
+        }
+
     }
 }

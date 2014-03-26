@@ -36,8 +36,12 @@ namespace SpielNaoKinect.Kinect
                 Joint WristRight = currentSkeleton.Joints[JointType.WristRight];
                 Joint WristLeft = currentSkeleton.Joints[JointType.WristLeft];
 
-                //Console.WriteLine(GetBodySegmentAngle(ElbowRight, ShoulderRight, HipRight));
-                Vergleich.Achsel_links(GetBodySegmentAngle(ElbowLeft, ShoulderLeft, HipLeft));
+                //Vergleich.Achsel_links_roll(GetBodySegmentAngle(ElbowLeft, ShoulderLeft, HipLeft));
+                //Vergleich.Achsel_rechts_roll(GetBodySegmentAngle(ElbowRight, ShoulderRight, HipRight));
+                //Vergleich.Ellenbogen_rechts_roll(GetBodySegmentAngle(ShoulderRight, ElbowRight, WristRight));
+                //Vergleich.Ellenbogen_links_roll(GetBodySegmentAngle(ShoulderLeft, ElbowLeft, WristLeft));
+                //Vergleich.Achsel_rechts_pitch(GetBodySegmentAngle(ShoulderLeft, ShoulderRight, ElbowRight));
+                //Vergleich.Achsel_links_pitch(GetBodySegmentAngle(ShoulderRight, ShoulderLeft, ElbowLeft));
             }
         }
 
