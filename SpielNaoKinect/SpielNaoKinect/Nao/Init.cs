@@ -24,7 +24,7 @@ namespace SpielNaoKinect.Nao
                 motion = new MotionProxy(ip, port);
                 rpp = new RobotPostureProxy(ip, port);
                 tts = new TextToSpeechProxy(ip, port);
-                Bewegen = new Bewegen(rpp, motion);
+                Bewegen = new Bewegen(rpp, motion, mw);
                 Start Start = new Start();
 
                 //Nao geht in die Startposition

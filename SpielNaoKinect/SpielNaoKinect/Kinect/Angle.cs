@@ -12,15 +12,15 @@ namespace SpielNaoKinect.Kinect
 {
     public class Angle
     {
-        private MainWindow mainWindow;
+        private MainWindow mw;
         public delegate void GuiAnzeigen();
         private int _RotationOffset = 0;
         private bool _ReverseCoordinates = false;
         private Vergleich Vergleich;
-        public Angle(MainWindow mainWindow)
+        public Angle(MainWindow mw)
         {
-            this.mainWindow = mainWindow;
-            Vergleich = new Vergleich();
+            this.mw = mw;
+            Vergleich = new Vergleich(mw);
         }
 
         public void Berechnen(Skeleton currentSkeleton)

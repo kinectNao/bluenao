@@ -47,6 +47,43 @@ namespace SpielNaoKinect
         int Sekunden;
         System.Timers.Timer Timer;
 
+        private List<float> LShoulderPitch = new List<float>();
+        public List<float> _LShoulderPitch
+        {
+            get { return LShoulderPitch; }
+            set { LShoulderPitch = value; }
+        }
+
+        private List<float> RShoulderPitch = new List<float>();
+        public List<float> _RShoulderPitch
+        {
+            get { return RShoulderPitch; }
+            set { RShoulderPitch = value; }
+        }
+        private List<float> LShoulderRoll = new List<float>();
+        public List<float> _LShoulderRoll
+        {
+            get { return LShoulderRoll; }
+            set { LShoulderRoll = value; }
+        }
+        private List<float> RShoulderRoll = new List<float>();
+        public List<float> _RShoulderRoll
+        {
+            get { return RShoulderRoll; }
+            set { RShoulderRoll = value; }
+        }
+        private List<float> LElbowRoll = new List<float>();
+        public List<float> _LElbowRoll
+        {
+            get { return LElbowRoll; }
+            set { LElbowRoll = value; }
+        }
+        private List<float> RElbowRoll = new List<float>();
+        public List<float> _RElbowRoll
+        {
+            get { return RElbowRoll; }
+            set { RElbowRoll = value; }
+        }
 
 
 

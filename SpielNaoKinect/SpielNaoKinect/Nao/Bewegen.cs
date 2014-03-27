@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Aldebaran.Proxies;
+using SpielNaoKinect;
 
 namespace SpielNaoKinect.Nao
 {
@@ -12,20 +13,16 @@ namespace SpielNaoKinect.Nao
         private RobotPostureProxy rpp;
         private MotionProxy motion;
         private int Bewegungsnummer;
-        public List<float> LShoulderPitch = new List<float>();
-        public List<float> RShoulderPitch = new List<float>();
-        public List<float> LShoulderRoll = new List<float>();
-        public List<float> RShoulderRoll = new List<float>();
-        public List<float> LElbowRoll = new List<float>();
-        public List<float> RElbowRoll = new List<float>();
         private int AnzahlDurchlaeufe;
+        private MainWindow mw;
 
-
-        public Bewegen(RobotPostureProxy rpp, MotionProxy motion)
+        public Bewegen(RobotPostureProxy rpp, MotionProxy motion, MainWindow mw)
         {
             this.rpp = rpp;
             this.motion = motion;
+            this.mw = mw;
         }
+
 
         public void Bewegung_erzeugen()
         {
@@ -51,12 +48,13 @@ namespace SpielNaoKinect.Nao
         public void Bewegung()
         {
             AnzahlDurchlaeufe = 0;
-            LShoulderPitch.Clear();
-            RShoulderPitch.Clear();
-            LShoulderRoll.Clear();
-            RShoulderRoll.Clear();
-            LElbowRoll.Clear();
-            RElbowRoll.Clear();
+            mw._LShoulderPitch.Clear();
+            mw._RShoulderPitch.Clear();
+            mw._LShoulderRoll.Clear();
+            mw._RShoulderRoll.Clear();
+            mw._LElbowRoll.Clear();
+            mw._RElbowRoll.Clear();
+
             //WENN NOCH WEITERE LISTEN HINZUKOMMEN MÜSSEN SIE HIER WIEDER AUF 0 GESETZT WERDEN
 
             Console.WriteLine("Nao führt Bewegung Nummer " + Bewegungsnummer + " aus.");
@@ -73,17 +71,19 @@ namespace SpielNaoKinect.Nao
                         {
                             if (AnzahlDurchlaeufe % 100 == 0)
                             {
+                                
                                 // if (WinkelNao == degrees);
-                                LShoulderPitch.Add(motion.getAngles("LShoulderPitch", false).Last());
-                                RShoulderPitch.Add(motion.getAngles("RShoulderPitch", false).Last());
-                                LShoulderRoll.Add(motion.getAngles("LShoulderRoll", false).Last());
-                                RShoulderRoll.Add(motion.getAngles("RShoulderRoll", false).Last());
-                                LElbowRoll.Add(motion.getAngles("LElbowRoll", false).Last());
-                                RElbowRoll.Add(motion.getAngles("RElbowRoll", false).Last());
+                                
+                                mw._LShoulderPitch.Add(motion.getAngles("LShoulderPitch", false).Last());
+                                mw._RShoulderPitch.Add(motion.getAngles("RShoulderPitch", false).Last());
+                                mw._LShoulderRoll.Add(motion.getAngles("LShoulderRoll", false).Last());
+                                mw._RShoulderRoll.Add(motion.getAngles("RShoulderRoll", false).Last());
+                                mw._LElbowRoll.Add(motion.getAngles("LElbowRoll", false).Last());
+                                mw._RElbowRoll.Add(motion.getAngles("RElbowRoll", false).Last());
                             }
                             AnzahlDurchlaeufe++;
                         }
-                        Console.WriteLine("Es wurden insgesamt " + LShoulderPitch.Count + " Werte vom Nao gespeichert.");
+                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
@@ -102,16 +102,17 @@ namespace SpielNaoKinect.Nao
                             if (AnzahlDurchlaeufe % 100 == 0)
                             {
                                 // if (WinkelNao == degrees);
-                                LShoulderPitch.Add(motion.getAngles("LShoulderPitch", false).Last());
-                                RShoulderPitch.Add(motion.getAngles("RShoulderPitch", false).Last());
-                                LShoulderRoll.Add(motion.getAngles("LShoulderRoll", false).Last());
-                                RShoulderRoll.Add(motion.getAngles("RShoulderRoll", false).Last());
-                                LElbowRoll.Add(motion.getAngles("LElbowRoll", false).Last());
-                                RElbowRoll.Add(motion.getAngles("RElbowRoll", false).Last());
+                                
+                                mw._LShoulderPitch.Add(motion.getAngles("LShoulderPitch", false).Last());
+                                mw._RShoulderPitch.Add(motion.getAngles("RShoulderPitch", false).Last());
+                                mw._LShoulderRoll.Add(motion.getAngles("LShoulderRoll", false).Last());
+                                mw._RShoulderRoll.Add(motion.getAngles("RShoulderRoll", false).Last());
+                                mw._LElbowRoll.Add(motion.getAngles("LElbowRoll", false).Last());
+                                mw._RElbowRoll.Add(motion.getAngles("RElbowRoll", false).Last());
                             }
                             AnzahlDurchlaeufe++;
                         }
-                        Console.WriteLine("Es wurden insgesamt " + LShoulderPitch.Count + " Werte vom Nao gespeichert.");
+                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
