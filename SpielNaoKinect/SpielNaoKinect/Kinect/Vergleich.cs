@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SpielNaoKinect;
 using Microsoft.Kinect;
 using System.Windows.Media.Media3D;
+using SpielNaoKinect.Nao;
 
 
 namespace SpielNaoKinect.Kinect
@@ -17,6 +18,7 @@ namespace SpielNaoKinect.Kinect
             // if (WinkelNao == degrees);
             Console.WriteLine("Winkel der linken Achsel (Roll): " + degrees);
             System.Threading.Thread.Sleep(500);
+            
         }
 
         public void Achsel_rechts_roll(double degrees)

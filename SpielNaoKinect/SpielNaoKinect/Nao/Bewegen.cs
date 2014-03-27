@@ -12,12 +12,12 @@ namespace SpielNaoKinect.Nao
         private RobotPostureProxy rpp;
         private MotionProxy motion;
         private int Bewegungsnummer;
-        List<float> LShoulderPitch = new List<float>();
-        List<float> RShoulderPitch = new List<float>();
-        List<float> LShoulderRoll = new List<float>();
-        List<float> RShoulderRoll = new List<float>();
-        List<float> LElbowRoll = new List<float>();
-        List<float> RElbowRoll = new List<float>();
+        public List<float> LShoulderPitch = new List<float>();
+        public List<float> RShoulderPitch = new List<float>();
+        public List<float> LShoulderRoll = new List<float>();
+        public List<float> RShoulderRoll = new List<float>();
+        public List<float> LElbowRoll = new List<float>();
+        public List<float> RElbowRoll = new List<float>();
         private int AnzahlDurchlaeufe;
 
 
