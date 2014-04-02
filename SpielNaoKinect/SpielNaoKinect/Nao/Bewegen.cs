@@ -15,6 +15,8 @@ namespace SpielNaoKinect.Nao
         private int Bewegungsnummer;
         private int AnzahlDurchlaeufe;
         private MainWindow mw;
+        public int degree;
+        public float radiant;
 
         public Bewegen(RobotPostureProxy rpp, MotionProxy motion, MainWindow mw)
         {
@@ -64,23 +66,17 @@ namespace SpielNaoKinect.Nao
                     try
                     {
                         string[] Joints = { "LElbowRoll", "LShoulderRoll", "RElbowRoll", "RShoulderRoll" };
-                        float[] Winkel = { 0f, 1.31f, 0f, -1.31f };
+                        float[] Winkel = { UmrechnungDegRad(0), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(-75) };
                         int IDMotion = motion.post.angleInterpolationWithSpeed(Joints, Winkel, 0.08f);
 
                         while(motion.isRunning(IDMotion))
                         {
-                            if (AnzahlDurchlaeufe % 100 == 0)
-                            {
-                                
-                                // if (WinkelNao == degrees);
-                                
-                                mw._LShoulderPitch.Add(motion.getAngles("LShoulderPitch", false).Last());
-                                mw._RShoulderPitch.Add(motion.getAngles("RShoulderPitch", false).Last());
-                                mw._LShoulderRoll.Add(motion.getAngles("LShoulderRoll", false).Last());
-                                mw._RShoulderRoll.Add(motion.getAngles("RShoulderRoll", false).Last());
-                                mw._LElbowRoll.Add(motion.getAngles("LElbowRoll", false).Last());
-                                mw._RElbowRoll.Add(motion.getAngles("RElbowRoll", false).Last());
-                            }
+                                mw._LShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("LShoulderPitch", false).Last()));
+                                mw._RShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("RShoulderPitch", false).Last()));
+                                mw._LShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("LShoulderRoll", false).Last()));
+                                mw._RShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("RShoulderRoll", false).Last()));
+                                mw._LElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("LElbowRoll", false).Last()));
+                                mw._RElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("RElbowRoll", false).Last()));
                             AnzahlDurchlaeufe++;
                         }
                         Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
@@ -99,16 +95,16 @@ namespace SpielNaoKinect.Nao
 
                         while(motion.isRunning(IDMotion))
                         {
-                            if (AnzahlDurchlaeufe % 100 == 0)
+                            if (AnzahlDurchlaeufe % 5 == 0)
                             {
                                 // if (WinkelNao == degrees);
                                 
-                                mw._LShoulderPitch.Add(motion.getAngles("LShoulderPitch", false).Last());
-                                mw._RShoulderPitch.Add(motion.getAngles("RShoulderPitch", false).Last());
-                                mw._LShoulderRoll.Add(motion.getAngles("LShoulderRoll", false).Last());
-                                mw._RShoulderRoll.Add(motion.getAngles("RShoulderRoll", false).Last());
-                                mw._LElbowRoll.Add(motion.getAngles("LElbowRoll", false).Last());
-                                mw._RElbowRoll.Add(motion.getAngles("RElbowRoll", false).Last());
+                                mw._LShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("LShoulderPitch", false).Last()));
+                                mw._RShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("RShoulderPitch", false).Last()));
+                                mw._LShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("LShoulderRoll", false).Last()));
+                                mw._RShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("RShoulderRoll", false).Last()));
+                                mw._LElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("LElbowRoll", false).Last()));
+                                mw._RElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("RElbowRoll", false).Last()));
                             }
                             AnzahlDurchlaeufe++;
                         }
@@ -173,6 +169,19 @@ namespace SpielNaoKinect.Nao
                     Console.WriteLine("Bewegungsnummer wird nicht genutzt");
                     break;
             }
+        }
+
+        public float UmrechnungDegRad(int degree)
+        {
+            radiant = (float)(degree * Math.PI / 180);
+            return radiant;
+        }
+        
+
+        public int UmrechnungRadDeg(float radiant)
+        {
+            degree = Convert.ToInt32(radiant * 180 / Math.PI);
+            return degree;
         }
     }
 }

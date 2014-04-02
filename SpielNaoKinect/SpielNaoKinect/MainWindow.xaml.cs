@@ -85,6 +85,14 @@ namespace SpielNaoKinect
             set { RElbowRoll = value; }
         }
 
+        public bool Achsel_links_roll_erreicht { get; set; }
+        public bool Achsel_rechts_roll_erreicht { get; set; }
+        public bool Ellenbogen_rechts_roll_erreicht { get; set; }
+        public bool Ellenbogen_links_roll_erreicht { get; set; }
+        public bool Achsel_rechts_pitch_erreicht { get; set; }
+        public bool Achsel_links_pitch_erreicht { get; set; }
+        public int Schwierigkeit { get; set; }
+
 
 
 // MAIN
@@ -307,10 +315,21 @@ namespace SpielNaoKinect
         // THREAD Bewegung
         private void Thread_Bewegung()
         {
+            Achsel_links_pitch_erreicht = false;
+            Achsel_rechts_pitch_erreicht = false;
+            Achsel_links_roll_erreicht = false;
+            Achsel_rechts_roll_erreicht = false;
+            Ellenbogen_links_roll_erreicht = false;
+            Ellenbogen_rechts_roll_erreicht = false;
+
             LabelBewegung.Content = "Nao macht eine Bewegung";
             Button_NeueBewegung.IsEnabled = false;
             Button_Wiederholen.IsEnabled = false;
             Button_NeuesSpiel.IsEnabled = false;
+            RB_Leicht.IsEnabled = false;
+            RB_Mittel.IsEnabled = false;
+            RB_Schwer.IsEnabled = false;
+
             Th_Bewegung = new Thread[2];
             Th_Bewegung[0] = new Thread(new ThreadStart(Thread_Bewegung_Nao));
             Th_Bewegung[1] = new Thread(new ThreadStart(Thread_Bewegung_Gui));
@@ -409,6 +428,22 @@ namespace SpielNaoKinect
 
 //Timer ist fertig
             while (TimerEnde == false) ;
+            if (Achsel_links_roll_erreicht && Achsel_rechts_roll_erreicht && Achsel_links_pitch_erreicht && Achsel_rechts_pitch_erreicht && Ellenbogen_links_roll_erreicht && Ellenbogen_rechts_roll_erreicht)
+            {
+                Console.WriteLine("Du hast die Bewegung erfolgreich wiederholt");
+            }
+            else
+            {
+                Console.WriteLine("Leider hast du die Bewegung nicht richtig wiederholen können. Klicke doch auf den Button 'Wiederholen' und versuche es noch einmal");
+                Console.WriteLine("1" + Achsel_links_roll_erreicht);
+                Console.WriteLine("2" + Achsel_rechts_roll_erreicht);
+                Console.WriteLine("3" + Achsel_links_pitch_erreicht);
+                Console.WriteLine("4" + Achsel_rechts_pitch_erreicht);
+                Console.WriteLine("5" + Ellenbogen_links_roll_erreicht);
+                Console.WriteLine("6" + Ellenbogen_rechts_roll_erreicht);
+            }
+
+
 
 //Buttons einblenden
             if (null != Application.Current)
@@ -420,6 +455,9 @@ namespace SpielNaoKinect
                     Button_NeueBewegung.IsEnabled = true;
                     Button_Wiederholen.IsEnabled = true;
                     Button_NeuesSpiel.IsEnabled = true;
+                    RB_Leicht.IsEnabled = true;
+                    RB_Mittel.IsEnabled = true;
+                    RB_Schwer.IsEnabled = true;
                 });
             }
         }
@@ -448,7 +486,8 @@ namespace SpielNaoKinect
         private void Thread_Init_Nao()
         {
             Init = new Init(this);
-            Init.Initialisierung("127.0.0.1", 9559);
+            Init.Initialisierung("192.168.100.4", 9559);
+            //Init.Initialisierung("127.0.0.1", 9559);
         }
 
 
@@ -462,6 +501,21 @@ namespace SpielNaoKinect
                     Button_NeueBewegung.IsEnabled = true;
                 });
             }
+        }
+
+        private void RB_Leicht_Click(object sender, RoutedEventArgs e)
+        {
+            Schwierigkeit = 20;
+        }
+
+        private void RB_Mittel_Click(object sender, RoutedEventArgs e)
+        {
+            Schwierigkeit = 15;
+        }
+
+        private void RB_Schwer_Click(object sender, RoutedEventArgs e)
+        {
+            Schwierigkeit = 10;
         }
     }
 }

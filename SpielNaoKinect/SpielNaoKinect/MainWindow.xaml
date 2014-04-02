@@ -26,6 +26,10 @@
             <Button Margin="0,0,0,490" IsEnabled="False" Click="Button_NeueBewegung_Click" Name="Button_NeueBewegung">neue Bewegung</Button>
             <Button Margin="0,65,0,425" IsEnabled="False" Click="Button_Wiederholen_Click" Name="Button_Wiederholen">Bewegung wdh.</Button>
             <Button Margin="0,130,0,360" IsEnabled="False" Click="Button_NeuesSpiel_Click" Name="Button_NeuesSpiel">neues Spiel</Button>
+            <RadioButton Margin="10,220,0,300" Name="RB_Leicht" Checked="RB_Leicht_Click" IsChecked="True">Leicht</RadioButton>
+            <RadioButton Margin="10,250,0,270" Name="RB_Mittel" Checked="RB_Mittel_Click">Mittel</RadioButton>
+            <RadioButton Margin="10,280,0,240" Name="RB_Schwer" Checked="RB_Schwer_Click">Schwer</RadioButton>
+            <GroupBox Header="Schwierigkeit" HorizontalAlignment="Left" Margin="0,195,0,0" VerticalAlignment="Top" Width="130" Height="110"/>
         </Grid>
     </Grid>
 </Window>
