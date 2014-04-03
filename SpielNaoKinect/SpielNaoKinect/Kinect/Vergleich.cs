@@ -20,71 +20,88 @@ namespace SpielNaoKinect.Kinect
             this.mw = mw;
         }
 
+// Achtung! Steckt in einer WHILE Schleife drin!
         public void Achsel_links_roll(double degrees)
         {
-            degrees += 90;
-            if (degrees >= (mw._LShoulderRoll.First() - mw.Schwierigkeit) && degrees <= (mw._LShoulderRoll.First() + mw.Schwierigkeit))
+            degrees -= 90;
+            degrees = degrees * (-1);
+            
+            for (int i = 0; i < mw._LShoulderRoll.Count(); i++)
             {
-                Console.WriteLine("Startwert 1 erreicht");
-                if (degrees >= (mw._LShoulderRoll.Last() - mw.Schwierigkeit) && degrees <= (mw._LShoulderRoll.Last() + mw.Schwierigkeit))
+                if (degrees >= (mw._LShoulderRoll[i] - mw.Schwierigkeit) && degrees <= (mw._LShoulderRoll[i] + mw.Schwierigkeit))
                 {
-                    Console.WriteLine("zielwert 1 erreicht");
-                    mw.Achsel_links_roll_erreicht = true;
+                    mw._LShoulderRoll.RemoveAt(i);
                 }
+            }
+            if (mw._LShoulderRoll.Count() == 0)
+            {
+                mw.Achsel_links_roll_erreicht = true;
             }
         }
 
         public void Achsel_rechts_roll(int degrees)
         {
             degrees -= 90;
-            if (degrees >= (mw._RShoulderRoll.First() - mw.Schwierigkeit) && degrees <= (mw._RShoulderRoll.First() + mw.Schwierigkeit))
+            //degrees = degrees * (-1);
+            Console.WriteLine(degrees);
+            for (int i = 0; i < mw._RShoulderRoll.Count(); i++)
             {
-                Console.WriteLine("Startwert 2 erreicht");
-                if (degrees >= (mw._RShoulderRoll.Last() - mw.Schwierigkeit) && degrees <= (mw._RShoulderRoll.Last() + mw.Schwierigkeit))
+                if (degrees >= (mw._RShoulderRoll[i] - mw.Schwierigkeit) && degrees <= (mw._RShoulderRoll[i] + mw.Schwierigkeit))
                 {
-                    Console.WriteLine("zielwert 2 erreicht");
-                    mw.Achsel_rechts_roll_erreicht = true;
+                    mw._RShoulderRoll.RemoveAt(i);
+                    //Console.WriteLine(mw._RShoulderRoll.Count());
                 }
             }
+            if (mw._RShoulderRoll.Count() == 0)
+            {
+                mw.Achsel_rechts_roll_erreicht = true;
+            }
+            System.Threading.Thread.Sleep(200);
         }
 
         public void Ellenbogen_rechts_roll(int degrees)
         {
-            if (degrees >= (mw._RElbowRoll.First() - mw.Schwierigkeit) && degrees <= (mw._RElbowRoll.First() + mw.Schwierigkeit))
+            for (int i = 0; i < mw._RElbowRoll.Count(); i++)
             {
-                Console.WriteLine("Startwert 3 erreicht");
-                if (degrees >= (mw._RElbowRoll.Last() - mw.Schwierigkeit) && degrees <= (mw._RElbowRoll.Last() + mw.Schwierigkeit))
+                if (degrees >= (mw._RElbowRoll[i] - mw.Schwierigkeit) && degrees <= (mw._RElbowRoll[i] + mw.Schwierigkeit))
                 {
-                    Console.WriteLine("zielwert 3 erreicht");
-                    mw.Ellenbogen_rechts_roll_erreicht = true;
+                    mw._RElbowRoll.RemoveAt(i);
                 }
+            }
+            if (mw._RElbowRoll.Count() == 0)
+            {
+                mw.Ellenbogen_rechts_roll_erreicht = true;
             }
         }
 
         public void Ellenbogen_links_roll(int degrees)
         {
-            if (degrees >= (mw._LElbowRoll.First() - mw.Schwierigkeit) && degrees <= (mw._LElbowRoll.First() + mw.Schwierigkeit))
+            for (int i = 0; i < mw._LElbowRoll.Count(); i++)
             {
-                Console.WriteLine("Startwert 4 erreicht");
-                if (degrees >= (mw._LElbowRoll.Last() - mw.Schwierigkeit) && degrees <= (mw._LElbowRoll.Last() + mw.Schwierigkeit))
+                if (degrees >= (mw._LElbowRoll[i] - mw.Schwierigkeit) && degrees <= (mw._LElbowRoll[i] + mw.Schwierigkeit))
                 {
-                    Console.WriteLine("zielwert 4 erreicht");
-                    mw.Ellenbogen_links_roll_erreicht = true;
+                    mw._LElbowRoll.RemoveAt(i);
                 }
+            }
+            if (mw._LElbowRoll.Count() == 0)
+            {
+                mw.Ellenbogen_links_roll_erreicht = true;
             }
         }
 
         public void Achsel_rechts_pitch(int degrees)
         {
             degrees -= 90;
-            if (degrees >= (mw._RShoulderPitch.First() - mw.Schwierigkeit) && degrees <= (mw._RShoulderPitch.First() + mw.Schwierigkeit))
+            for (int i = 0; i < mw._RShoulderPitch.Count(); i++)
             {
-                Console.WriteLine("Startwert 5 erreicht");
-                if (degrees >= (mw._RShoulderPitch.Last() - mw.Schwierigkeit) && degrees <= (mw._RShoulderPitch.Last() + mw.Schwierigkeit))
+                if (degrees >= (mw._RShoulderPitch[i] - mw.Schwierigkeit) && degrees <= (mw._RShoulderPitch[i] + mw.Schwierigkeit))
                 {
-                    Console.WriteLine("zielwert 5 erreicht");
-                    mw.Achsel_rechts_pitch_erreicht = true;
+                    mw._RShoulderPitch.RemoveAt(i);
                 }
+            }
+            if (mw._RShoulderPitch.Count() == 0)
+            {
+                mw.Achsel_rechts_pitch_erreicht = true;
             }
         }
 
@@ -92,14 +109,16 @@ namespace SpielNaoKinect.Kinect
         {
             degrees += 90;
             degrees = degrees * (-1);
-            if (degrees >= (mw._LShoulderPitch.First() - mw.Schwierigkeit) && degrees <= (mw._LShoulderPitch.First() + mw.Schwierigkeit))
+            for (int i = 0; i < mw._LShoulderPitch.Count(); i++)
             {
-                Console.WriteLine("Startwert 6 erreicht");
-                if (degrees >= (mw._LShoulderPitch.Last() - mw.Schwierigkeit) && degrees <= (mw._LShoulderPitch.Last() + mw.Schwierigkeit))
+                if (degrees >= (mw._LShoulderPitch[i] - mw.Schwierigkeit) && degrees <= (mw._LShoulderPitch[i] + mw.Schwierigkeit))
                 {
-                    Console.WriteLine("zielwert 6 erreicht");
-                    mw.Achsel_links_pitch_erreicht = true;
+                    mw._LShoulderPitch.RemoveAt(i);
                 }
+            }
+            if (mw._LShoulderPitch.Count() == 0)
+            {
+                mw.Achsel_links_pitch_erreicht = true;
             }
             //Console.WriteLine("Winkel der linken Achsel (Pitch): " + degrees);
             //System.Threading.Thread.Sleep(50);

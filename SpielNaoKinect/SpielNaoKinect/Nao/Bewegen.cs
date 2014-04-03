@@ -13,7 +13,6 @@ namespace SpielNaoKinect.Nao
         private RobotPostureProxy rpp;
         private MotionProxy motion;
         private int Bewegungsnummer;
-        private int AnzahlDurchlaeufe;
         private MainWindow mw;
         public int degree;
         public float radiant;
@@ -49,7 +48,6 @@ namespace SpielNaoKinect.Nao
 
         public void Bewegung()
         {
-            AnzahlDurchlaeufe = 0;
             mw._LShoulderPitch.Clear();
             mw._RShoulderPitch.Clear();
             mw._LShoulderRoll.Clear();
@@ -74,10 +72,10 @@ namespace SpielNaoKinect.Nao
                                 mw._LShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("LShoulderPitch", false).Last()));
                                 mw._RShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("RShoulderPitch", false).Last()));
                                 mw._LShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("LShoulderRoll", false).Last()));
+                            Console.WriteLine(UmrechnungRadDeg(motion.getAngles("LShoulderRoll", false).Last()));
                                 mw._RShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("RShoulderRoll", false).Last()));
                                 mw._LElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("LElbowRoll", false).Last()));
                                 mw._RElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("RElbowRoll", false).Last()));
-                            AnzahlDurchlaeufe++;
                         }
                         Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
@@ -95,18 +93,15 @@ namespace SpielNaoKinect.Nao
 
                         while(motion.isRunning(IDMotion))
                         {
-                            if (AnzahlDurchlaeufe % 5 == 0)
-                            {
-                                // if (WinkelNao == degrees);
-                                
+                            /*if (AnzahlDurchlaeufe % 5 == 0)
+                            {                             
                                 mw._LShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("LShoulderPitch", false).Last()));
                                 mw._RShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("RShoulderPitch", false).Last()));
                                 mw._LShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("LShoulderRoll", false).Last()));
                                 mw._RShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("RShoulderRoll", false).Last()));
                                 mw._LElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("LElbowRoll", false).Last()));
                                 mw._RElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("RElbowRoll", false).Last()));
-                            }
-                            AnzahlDurchlaeufe++;
+                            }*/
                         }
                         Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }

@@ -40,6 +40,7 @@ namespace SpielNaoKinect.Kinect
                 Vergleich.Achsel_rechts_pitch(GetBodySegmentAngle(ElbowRight, ShoulderRight, HipRight));
                 Vergleich.Ellenbogen_rechts_roll(GetBodySegmentAngle(ShoulderRight, ElbowRight, WristRight));
                 Vergleich.Ellenbogen_links_roll(GetBodySegmentAngle(ShoulderLeft, ElbowLeft, WristLeft));
+                //Die beiden Achsel roll mit 4 Joints anpassen
                 Vergleich.Achsel_rechts_roll(GetBodySegmentAngle(ShoulderLeft, ShoulderRight, ElbowRight));
                 Vergleich.Achsel_links_roll(GetBodySegmentAngle(ShoulderRight, ShoulderLeft, ElbowLeft));
             }
