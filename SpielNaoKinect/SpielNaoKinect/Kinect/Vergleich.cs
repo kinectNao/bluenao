@@ -24,8 +24,6 @@ namespace SpielNaoKinect.Kinect
         public void Achsel_links_roll(double degrees)
         {
             degrees -= 90;
-            degrees = degrees * (-1);
-            
             for (int i = 0; i < mw._LShoulderRoll.Count(); i++)
             {
                 if (degrees >= (mw._LShoulderRoll[i] - mw.Schwierigkeit) && degrees <= (mw._LShoulderRoll[i] + mw.Schwierigkeit))
@@ -42,14 +40,12 @@ namespace SpielNaoKinect.Kinect
         public void Achsel_rechts_roll(int degrees)
         {
             degrees -= 90;
-            //degrees = degrees * (-1);
-            Console.WriteLine(degrees);
+            degrees = degrees * (-1);
             for (int i = 0; i < mw._RShoulderRoll.Count(); i++)
             {
                 if (degrees >= (mw._RShoulderRoll[i] - mw.Schwierigkeit) && degrees <= (mw._RShoulderRoll[i] + mw.Schwierigkeit))
                 {
                     mw._RShoulderRoll.RemoveAt(i);
-                    //Console.WriteLine(mw._RShoulderRoll.Count());
                 }
             }
             if (mw._RShoulderRoll.Count() == 0)
@@ -66,6 +62,7 @@ namespace SpielNaoKinect.Kinect
                 if (degrees >= (mw._RElbowRoll[i] - mw.Schwierigkeit) && degrees <= (mw._RElbowRoll[i] + mw.Schwierigkeit))
                 {
                     mw._RElbowRoll.RemoveAt(i);
+                    Console.WriteLine(mw._RElbowRoll.Count());
                 }
             }
             if (mw._RElbowRoll.Count() == 0)
