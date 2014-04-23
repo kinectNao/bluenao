@@ -21,7 +21,7 @@ namespace SpielNaoKinect.Kinect
         }
 
 // Achtung! Steckt in einer WHILE Schleife drin!
-        public void Achsel_links_roll(double degrees)
+        public void Achsel_links_roll(long degrees)
         {
             degrees -= 90;
             for (int i = 0; i < mw._LShoulderRoll.Count(); i++)
@@ -37,7 +37,7 @@ namespace SpielNaoKinect.Kinect
             }
         }
 
-        public void Achsel_rechts_roll(int degrees)
+        public void Achsel_rechts_roll(long degrees)
         {
             degrees -= 90;
             degrees = degrees * (-1);
@@ -52,17 +52,15 @@ namespace SpielNaoKinect.Kinect
             {
                 mw.Achsel_rechts_roll_erreicht = true;
             }
-            System.Threading.Thread.Sleep(200);
         }
 
-        public void Ellenbogen_rechts_roll(int degrees)
+        public void Ellenbogen_rechts_roll(long degrees)
         {
             for (int i = 0; i < mw._RElbowRoll.Count(); i++)
             {
                 if (degrees >= (mw._RElbowRoll[i] - mw.Schwierigkeit) && degrees <= (mw._RElbowRoll[i] + mw.Schwierigkeit))
                 {
                     mw._RElbowRoll.RemoveAt(i);
-                    Console.WriteLine(mw._RElbowRoll.Count());
                 }
             }
             if (mw._RElbowRoll.Count() == 0)
@@ -71,7 +69,7 @@ namespace SpielNaoKinect.Kinect
             }
         }
 
-        public void Ellenbogen_links_roll(int degrees)
+        public void Ellenbogen_links_roll(long degrees)
         {
             for (int i = 0; i < mw._LElbowRoll.Count(); i++)
             {
@@ -86,7 +84,7 @@ namespace SpielNaoKinect.Kinect
             }
         }
 
-        public void Achsel_rechts_pitch(int degrees)
+        public void Achsel_rechts_pitch(long degrees)
         {
             degrees -= 90;
             for (int i = 0; i < mw._RShoulderPitch.Count(); i++)
@@ -102,7 +100,7 @@ namespace SpielNaoKinect.Kinect
             }
         }
 
-        public void Achsel_links_pitch(int degrees)
+        public void Achsel_links_pitch(long degrees)
         {
             degrees += 90;
             degrees = degrees * (-1);
