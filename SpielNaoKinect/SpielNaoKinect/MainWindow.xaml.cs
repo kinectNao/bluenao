@@ -487,7 +487,6 @@ namespace SpielNaoKinect
         {
             Init = new Init(this);
             Init.Initialisierung("192.168.100.4", 9559);
-            //Init.Initialisierung("127.0.0.1", 9559);
         }
 
 
