@@ -36,13 +36,13 @@ namespace SpielNaoKinect.Kinect
                 Joint WristRight = currentSkeleton.Joints[JointType.WristRight];
                 Joint WristLeft = currentSkeleton.Joints[JointType.WristLeft];
 
-                Vergleich.Achsel_links_pitch(GetBodySegmentAngle(ElbowLeft, ShoulderLeft, HipLeft));
-                Vergleich.Achsel_rechts_pitch(GetBodySegmentAngle(ElbowRight, ShoulderRight, HipRight));
-                Vergleich.Ellenbogen_rechts_roll(GetBodySegmentAngle(ShoulderRight, ElbowRight, WristRight));
-                Vergleich.Ellenbogen_links_roll(GetBodySegmentAngle(ShoulderLeft, ElbowLeft, WristLeft));
+                Vergleich.Achsel_links_pitch(GetBodySegmentAngleThreeJoints(ElbowLeft, ShoulderLeft, HipLeft));
+                Vergleich.Achsel_rechts_pitch(GetBodySegmentAngleThreeJoints(ElbowRight, ShoulderRight, HipRight));
+                Vergleich.Ellenbogen_rechts_roll(GetBodySegmentAngleThreeJoints(ShoulderRight, ElbowRight, WristRight));
+                Vergleich.Ellenbogen_links_roll(GetBodySegmentAngleThreeJoints(ShoulderLeft, ElbowLeft, WristLeft));
                 //Die beiden Achsel roll mit 4 Joints anpassen
-                Vergleich.Achsel_rechts_roll(GetBodySegmentAngle(ShoulderLeft, ShoulderRight, ElbowRight));
-                Vergleich.Achsel_links_roll(GetBodySegmentAngle(ShoulderRight, ShoulderLeft, ElbowLeft));
+                Vergleich.Achsel_rechts_roll(GetBodySegmentAngleThreeJoints(ShoulderLeft, ShoulderRight, ElbowRight));
+                Vergleich.Achsel_links_roll(GetBodySegmentAngleThreeJoints(ShoulderRight, ShoulderLeft, ElbowLeft));
             }
         }
 
@@ -76,7 +76,7 @@ namespace SpielNaoKinect.Kinect
          /// <param name="joint2">Must be between joint1 and joint3</param>
          /// <param name="joint3"></param>
          /// <returns>The angle in degrees between the specified body segmeents.</returns>
-         public int GetBodySegmentAngle(Joint joint1, Joint joint2, Joint joint3)
+         public int GetBodySegmentAngleThreeJoints(Joint joint1, Joint joint2, Joint joint3)
          {
 
              Vector3D vectorJoint1ToJoint2 = new Vector3D(joint1.Position.X - joint2.Position.X, joint1.Position.Y - joint2.Position.Y, 0);
