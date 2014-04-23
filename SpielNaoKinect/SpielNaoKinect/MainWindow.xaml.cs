@@ -486,7 +486,7 @@ namespace SpielNaoKinect
         private void Thread_Init_Nao()
         {
             Init = new Init(this);
-            Init.Initialisierung("192.168.100.4", 9559);
+            Init.Initialisierung("192.168.100.3", 9559);
         }
 
 

@@ -28,7 +28,7 @@ namespace SpielNaoKinect.Nao
         public void Bewegung_erzeugen()
         {
             Random r = new Random();
-            Bewegungsnummer= r.Next(1, 2);
+            Bewegungsnummer= r.Next(1, 9);
             Bewegung();
         }
 
@@ -37,7 +37,7 @@ namespace SpielNaoKinect.Nao
         {
             try
             {
-                rpp.goToPosture("StandInit", 1);
+                rpp.goToPosture("StandZero", 1);
             }
             catch (Exception e)
             {
@@ -55,27 +55,27 @@ namespace SpielNaoKinect.Nao
             mw._LElbowRoll.Clear();
             mw._RElbowRoll.Clear();
 
-            //WENN NOCH WEITERE LISTEN HINZUKOMMEN MÜSSEN SIE HIER WIEDER AUF 0 GESETZT WERDEN
-
             Console.WriteLine("Nao führt Bewegung Nummer " + Bewegungsnummer + " aus.");
             switch (Bewegungsnummer)
             {
                 case 1:
                     try
                     {
-                        string[] Joints = { "LElbowRoll", "LShoulderRoll", "RElbowRoll", "RShoulderRoll" };
-                        float[] Winkel = { UmrechnungDegRad(0), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(-75) };
-                        int IDMotion = motion.post.angleInterpolationWithSpeed(Joints, Winkel, 0.08f);
+                        string[] Joints = { "LElbowRoll", "LShoulderRoll", "LShoulderPitch", "RElbowRoll", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(-85), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(85), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel2 = { UmrechnungDegRad(0), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(85), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel3 = { UmrechnungDegRad(-85), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel4 = { UmrechnungDegRad(0), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(85), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel5 = { UmrechnungDegRad(-85), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.08f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.2f);
+                        int IDMotion3 = motion.post.angleInterpolationWithSpeed(Joints, Winkel3, 0.2f);
+                        int IDMotion4 = motion.post.angleInterpolationWithSpeed(Joints, Winkel4, 0.2f);
+                        int IDMotion5 = motion.post.angleInterpolationWithSpeed(Joints, Winkel5, 0.2f);
 
-                        while(motion.isRunning(IDMotion))
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2) || motion.isRunning(IDMotion3) || motion.isRunning(IDMotion4) || motion.isRunning(IDMotion5))
                         {
-                                mw._LShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("LShoulderPitch", false).Last()));
-                                mw._RShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("RShoulderPitch", false).Last()));
-                                mw._LShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("LShoulderRoll", false).Last()));
-                            Console.WriteLine(UmrechnungRadDeg(motion.getAngles("LShoulderRoll", false).Last()));
-                                mw._RShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("RShoulderRoll", false).Last()));
-                                mw._LElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("LElbowRoll", false).Last()));
-                                mw._RElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("RElbowRoll", false).Last()));
+                            SpeichereAlleWerte();
                         }
                         Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
@@ -84,86 +84,168 @@ namespace SpielNaoKinect.Nao
                         Console.WriteLine("Bewegung1 Fehler" + e.Message);
                     }
                     break;
-                case 2:
+                case 2: //fertig (rechter Arm vorne hoch und linker Arm vorne runter)
                     try
                     {
-                        string[] Joints = { "LElbowRoll", "LShoulderPitch", "RElbowRoll", "RShoulderPitch" };
-                        float[] Winkel = { 0f, -1.57079633f, 0f, -1.57079633f };
-                        int IDMotion = motion.post.angleInterpolationWithSpeed(Joints, Winkel, 0.08f);
+                        string[] Joints = { "LElbowRoll", "LShoulderRoll", "LShoulderPitch", "RElbowRoll", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(90), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-90) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.08f);
 
-                        while(motion.isRunning(IDMotion))
+                        while(motion.isRunning(IDMotion1))
                         {
-                            /*if (AnzahlDurchlaeufe % 5 == 0)
-                            {                             
-                                mw._LShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("LShoulderPitch", false).Last()));
-                                mw._RShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("RShoulderPitch", false).Last()));
-                                mw._LShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("LShoulderRoll", false).Last()));
-                                mw._RShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("RShoulderRoll", false).Last()));
-                                mw._LElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("LElbowRoll", false).Last()));
-                                mw._RElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("RElbowRoll", false).Last()));
-                            }*/
+                            SpeichereAlleWerte();
                         }
                         Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Bewegung1 Fehler" + e.Message);
+                        Console.WriteLine("Bewegung2 Fehler" + e.Message);
                     }
                     break;
-                case 3:
+                case 3: //fertig (beide Arme nach außen)
                     try
                     {
-                        rpp.goToPosture("StandZero", 1);
+                        string[] Joints = { "LElbowRoll", "LShoulderRoll", "LShoulderPitch", "RElbowRoll", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.08f);
+
+                        while(motion.isRunning(IDMotion1))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("Bewegung3 Fehler" + e.Message);
                     }
                     break;
-                case 4:
+                case 4: //fertig (beide Arm zuerst nach aussen und dann Winken rechter Arm)
                     try
                     {
-                        rpp.goToPosture("Crouch", 1);
+                        string[] Joints = { "LElbowRoll", "LShoulderRoll", "LShoulderPitch", "RElbowRoll", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel2 = { UmrechnungDegRad(0), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(45), UmrechnungDegRad(0), UmrechnungDegRad(-70) };
+                        float[] Winkel3 = { UmrechnungDegRad(0), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.08f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.08f);
+                        int IDMotion3 = motion.post.angleInterpolationWithSpeed(Joints, Winkel3, 0.08f);
+
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2) || motion.isRunning(IDMotion3))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("Bewegung4 Fehler" + e.Message);
                     }
                     break;
-                case 5:
+                case 5: //fahre ein Dreieck vor dem Körper
                     try
                     {
-                        rpp.goToPosture("SitRelax", 1);
+                        string[] Joints = { "LElbowRoll", "LShoulderRoll", "LShoulderPitch", "RElbowRoll", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-40), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-40) };
+                        float[] Winkel2 = { UmrechnungDegRad(0), UmrechnungDegRad(40), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-40), UmrechnungDegRad(0) };
+                        float[] Winkel3 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(40), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(40) };
+                        float[] Winkel4 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-40), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-40) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.08f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.08f);
+                        int IDMotion3 = motion.post.angleInterpolationWithSpeed(Joints, Winkel3, 0.08f);
+                        int IDMotion4 = motion.post.angleInterpolationWithSpeed(Joints, Winkel4, 0.08f);
+
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2) || motion.isRunning(IDMotion3) || motion.isRunning(IDMotion4))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("Bewegung5 Fehler" + e.Message);
                     }
                     break;
-                case 6:
+                case 6: //Arme bisschen nach Außen und dann Ellenbogen in 80 Grad anwinkeln
                     try
                     {
-                        rpp.goToPosture("LyingBelly", 1);
+                        string[] Joints = { "LElbowRoll", "LShoulderRoll", "LShoulderPitch", "LElbowYaw", "RElbowRoll", "RShoulderRoll", "RShoulderPitch", "RElbowYaw" };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(40), UmrechnungDegRad(0), UmrechnungDegRad(-90), UmrechnungDegRad(0), UmrechnungDegRad(-40), UmrechnungDegRad(0), UmrechnungDegRad(90) };
+                        float[] Winkel2 = { UmrechnungDegRad(-80), UmrechnungDegRad(40), UmrechnungDegRad(0), UmrechnungDegRad(-90), UmrechnungDegRad(80), UmrechnungDegRad(-40), UmrechnungDegRad(0), UmrechnungDegRad(90) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.2f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.08f);
+
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("Bewegung6 Fehler" + e.Message);
                     }
                     break;
-                case 7:
+                case 7: //beide Arme zuerst nach außen, dann wieder in die Mitte, dann rechts nach oben & links nach unten, dann wieder in die Mitte
                     try
                     {
-                        rpp.goToPosture("LyingBack", 1);
+                        string[] Joints = { "LElbowRoll", "LShoulderRoll", "LShoulderPitch", "RElbowRoll", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel2 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        float[] Winkel3 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(80), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-80) };
+                        float[] Winkel4 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.08f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.08f);
+                        int IDMotion3 = motion.post.angleInterpolationWithSpeed(Joints, Winkel3, 0.08f);
+                        int IDMotion4 = motion.post.angleInterpolationWithSpeed(Joints, Winkel4, 0.08f);
+
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2) || motion.isRunning(IDMotion3) || motion.isRunning(IDMotion4))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("Bewegung7 Fehler" + e.Message);
                     }
                     break;
+                case 8: //Arme zuerst runter, dann zur Seite und dann Ellenbogen anwinkeln
+                    try
+                    {
+                        string[] Joints = { "LElbowRoll", "LShoulderRoll", "LShoulderPitch", "RElbowRoll", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(90), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(90) };
+                        float[] Winkel2 = { UmrechnungDegRad(0), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel3 = { UmrechnungDegRad(-85), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(85), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.08f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.08f);
+                        int IDMotion3 = motion.post.angleInterpolationWithSpeed(Joints, Winkel3, 0.08f);
+
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2) || motion.isRunning(IDMotion3))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Bewegung8 Fehler" + e.Message);
+                    }
+                    break;
                 default:
                     Console.WriteLine("Bewegungsnummer wird nicht genutzt");
                     break;
             }
+        }
+
+        private void SpeichereAlleWerte()
+        {
+            mw._LShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("LShoulderPitch", false).Last()));
+            mw._RShoulderPitch.Add(UmrechnungRadDeg(motion.getAngles("RShoulderPitch", false).Last()));
+            mw._LShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("LShoulderRoll", false).Last()));
+            mw._RShoulderRoll.Add(UmrechnungRadDeg(motion.getAngles("RShoulderRoll", false).Last()));
+            mw._LElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("LElbowRoll", false).Last()));
+            mw._RElbowRoll.Add(UmrechnungRadDeg(motion.getAngles("RElbowRoll", false).Last()));
         }
 
         public float UmrechnungDegRad(int degree)

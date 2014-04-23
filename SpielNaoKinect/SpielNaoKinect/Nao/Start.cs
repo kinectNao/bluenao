@@ -13,7 +13,7 @@ namespace SpielNaoKinect.Nao
         {
             try
             {
-                rpp.goToPosture("StandInit", 1);
+                rpp.goToPosture("StandZero", 1);
                 tts.say("Herzlich Willkommen zum Spiel.");
             }
             catch (Exception e)
