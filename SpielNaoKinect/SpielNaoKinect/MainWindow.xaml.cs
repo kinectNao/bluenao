@@ -45,6 +45,7 @@ namespace SpielNaoKinect
         bool SkeletonDa;
         bool TimerEnde;
         int Sekunden;
+        int Punkte = 0;
         System.Timers.Timer Timer;
 
         private List<float> LShoulderPitch = new List<float>();
@@ -308,6 +309,14 @@ namespace SpielNaoKinect
 
         private void Button_NeuesSpiel_Click(object sender, RoutedEventArgs e)
         {
+            Punkte = 0;
+            if (null != Application.Current)
+            {
+                Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
+                {
+                    Spielpunkte.Text = Punkte + " Punkte";
+                });
+            }
         }
 
 
@@ -431,6 +440,28 @@ namespace SpielNaoKinect
             if (Achsel_links_roll_erreicht && Achsel_rechts_roll_erreicht && Achsel_links_pitch_erreicht && Achsel_rechts_pitch_erreicht && Ellenbogen_links_roll_erreicht && Ellenbogen_rechts_roll_erreicht)
             {
                 Console.WriteLine("Du hast die Bewegung erfolgreich wiederholt");
+                if (Schwierigkeit == 20)
+                {
+                    Punkte = Punkte + 10;
+                }
+
+                if (Schwierigkeit == 15)
+                {
+                    Punkte = Punkte + 15;
+                }
+
+                if (Schwierigkeit == 10)
+                {
+                    Punkte = Punkte + 20;
+                }
+                if (null != Application.Current)
+                {
+                    Application.Current.Dispatcher.BeginInvoke((nachBewegung)delegate
+                    {
+                        Spielpunkte.Text = Punkte + " Punkte";
+                    });
+                }
+                Init.Bew_erfolgreich();
             }
             else
             {
@@ -441,6 +472,7 @@ namespace SpielNaoKinect
                 Console.WriteLine("4" + Achsel_rechts_pitch_erreicht);
                 Console.WriteLine("5" + Ellenbogen_links_roll_erreicht);
                 Console.WriteLine("6" + Ellenbogen_rechts_roll_erreicht);
+                Init.Bew_falsch();
             }
 
 

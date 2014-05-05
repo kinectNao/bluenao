@@ -14,14 +14,16 @@ namespace SpielNaoKinect.Nao
         private MotionProxy motion;
         private int Bewegungsnummer;
         private MainWindow mw;
+        private TextToSpeechProxy tts;
         public int degree;
         public float radiant;
 
-        public Bewegen(RobotPostureProxy rpp, MotionProxy motion, MainWindow mw)
+        public Bewegen(RobotPostureProxy rpp, MotionProxy motion, MainWindow mw, TextToSpeechProxy tts)
         {
             this.rpp = rpp;
             this.motion = motion;
             this.mw = mw;
+            this.tts = tts;
         }
 
 
@@ -233,9 +235,10 @@ namespace SpielNaoKinect.Nao
                     }
                     break;
                 default:
-                    Console.WriteLine("Bewegungsnummer wird nicht genutzt");
+                    Console.WriteLine("Fehler: Es ist keine Bewegung ausgewählt worden.");
                     break;
             }
+            tts.say("Nun mache du die Bewegung nach");
         }
 
         private void SpeichereAlleWerte()

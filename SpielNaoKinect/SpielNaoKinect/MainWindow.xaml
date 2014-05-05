@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              Title="Das Spiel"
              Width="900" Height="600"
-             ResizeMode="NoResize">
+             ResizeMode="NoResize" FontWeight="Bold">
     <Grid>
         <Grid.RowDefinitions>
             <!-- Main Window -->
@@ -14,23 +14,30 @@
             <!-- Main Window -->
             <ColumnDefinition Width="*" MinWidth="400"/>
             <!-- Buttons -->
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="17"/>
+            <ColumnDefinition Width="133"/>
         </Grid.ColumnDefinitions>
         <!-- Buttons -->
-        <Grid Grid.Column="0" Grid.Row="1" Margin="10" Grid.ColumnSpan="1" >
+        <Grid Grid.Column="0" Margin="8" Grid.ColumnSpan="1" >
             <Image Name="KinectImage" Height="480" Width="640"></Image>
             <Label Name="LabelBewegung" Visibility="Visible" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
             <Label Name="LabelTimer" Visibility="Visible" HorizontalAlignment="Left" Margin="50,80,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         </Grid>
-        <Grid Grid.Column="2" Grid.Row="1" Margin="10" Grid.ColumnSpan="2" >
+        <Grid Margin="0,10,20,10" Grid.ColumnSpan="2" Grid.Column="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="21*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="36*"/>
+            </Grid.ColumnDefinitions>
             <!--<Button Margin="0,0,0,490" Click="Button_Start_Click" Visibility="Visible" Name="Button_Start">Start</Button>-->
-            <Button Margin="0,0,0,490" IsEnabled="False" Click="Button_NeueBewegung_Click" Name="Button_NeueBewegung">neue Bewegung</Button>
-            <Button Margin="0,65,0,425" IsEnabled="False" Click="Button_Wiederholen_Click" Name="Button_Wiederholen">Bewegung wdh.</Button>
-            <Button Margin="0,130,0,360" IsEnabled="False" Click="Button_NeuesSpiel_Click" Name="Button_NeuesSpiel">neues Spiel</Button>
-            <RadioButton Margin="10,220,0,300" Name="RB_Leicht" Checked="RB_Leicht_Click" IsChecked="True">Leicht</RadioButton>
-            <RadioButton Margin="10,250,0,270" Name="RB_Mittel" Checked="RB_Mittel_Click">Mittel</RadioButton>
-            <RadioButton Margin="10,280,0,240" Name="RB_Schwer" Checked="RB_Schwer_Click">Schwer</RadioButton>
-            <GroupBox Header="Schwierigkeit" HorizontalAlignment="Left" Margin="0,195,0,0" VerticalAlignment="Top" Width="130" Height="110"/>
+            <Button Margin="0,36,0,454" IsEnabled="False" Click="Button_NeueBewegung_Click" Name="Button_NeueBewegung" FontWeight="Normal" Grid.ColumnSpan="3">neue Bewegung</Button>
+            <Button Margin="0,101,0,389" IsEnabled="False" Click="Button_Wiederholen_Click" Name="Button_Wiederholen" FontWeight="Normal" Grid.ColumnSpan="3">Bewegung wdh.</Button>
+            <Button Margin="0,166,0,324" IsEnabled="False" Click="Button_NeuesSpiel_Click" Name="Button_NeuesSpiel" FontWeight="Normal" Grid.ColumnSpan="3">neues Spiel</Button>
+            <RadioButton Margin="10,256,0,264" Name="RB_Leicht" Checked="RB_Leicht_Click" IsChecked="True" FontWeight="Normal" Grid.ColumnSpan="3">Leicht</RadioButton>
+            <RadioButton Margin="10,286,0,234" Name="RB_Mittel" Checked="RB_Mittel_Click" FontWeight="Normal" Grid.ColumnSpan="3">Mittel</RadioButton>
+            <RadioButton Margin="10,316,0,204" Name="RB_Schwer" Checked="RB_Schwer_Click" FontWeight="Normal" Grid.ColumnSpan="3">Schwer</RadioButton>
+            <GroupBox Header="Schwierigkeit" HorizontalAlignment="Left" Margin="0,231,0,0" VerticalAlignment="Top" Width="130" Height="110" FontWeight="Bold" Grid.ColumnSpan="3"/>
+            <TextBox HorizontalAlignment="Left" Height="28" Margin="0,353,0,0" TextWrapping="Wrap" IsEnabled="False" Name="Spielpunkte" Text="0 Punkte" Foreground="#FFE03908" VerticalAlignment="Top" Width="130" FontSize="16" TextAlignment="Center" FontWeight="Bold" Grid.ColumnSpan="3"/>
         </Grid>
     </Grid>
 </Window>

@@ -24,7 +24,7 @@ namespace SpielNaoKinect.Nao
                 motion = new MotionProxy(ip, port);
                 rpp = new RobotPostureProxy(ip, port);
                 tts = new TextToSpeechProxy(ip, port);
-                Bewegen = new Bewegen(rpp, motion, mw);
+                Bewegen = new Bewegen(rpp, motion, mw, tts);
                 Start Start = new Start();
 
                 //Nao geht in die Startposition
@@ -46,6 +46,16 @@ namespace SpielNaoKinect.Nao
             public void Bew_Ausgangspos()
             {
                 Bewegen.Ausgangsposition();
+            }
+
+            public void Bew_erfolgreich()
+            {
+                tts.say("Glückwunsch! Du hast die Bewegung erfolgreich nachgemacht.");
+            }
+
+            public void Bew_falsch()
+            {
+                tts.say("Leider hast du die Bewegung nicht richtig wiederholt. Klicke auf Bewegung wiederholen um es nocheinmal zu versuchen.");
             }
     }
 }
