@@ -165,7 +165,7 @@ namespace SpielNaoKinect
 //Fenster IP
         public static string getIP()
         {
-            string value = "127.0.0.1";
+            string value = "192.168.100.3";
 
             if (IPWindow.show("Geben Sie die IP Adresse zum Nao ein:", "IP:", ref value) == System.Windows.Forms.DialogResult.OK)
             {
