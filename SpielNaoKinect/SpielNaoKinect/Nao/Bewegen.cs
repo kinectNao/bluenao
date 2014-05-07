@@ -30,7 +30,7 @@ namespace SpielNaoKinect.Nao
         public void Bewegung_erzeugen()
         {
             Random r = new Random();
-            Bewegungsnummer= r.Next(6, 7);
+            Bewegungsnummer= r.Next(8, 9);
             Bewegung();
         }
 
@@ -208,7 +208,8 @@ namespace SpielNaoKinect.Nao
                     try
                     {
                         string[] Joints = { "LElbowRoll", "LShoulderRoll", "LShoulderPitch", "RElbowRoll", "RShoulderRoll", "RShoulderPitch" };
-                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(90), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(90) };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(90), 
+                                              UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(90) };
                         float[] Winkel2 = { UmrechnungDegRad(0), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
                         float[] Winkel3 = { UmrechnungDegRad(-85), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(85), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
                         int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.08f);
