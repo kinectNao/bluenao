@@ -30,7 +30,7 @@ namespace SpielNaoKinect.Nao
         public void Bewegung_erzeugen()
         {
             Random r = new Random();
-            Bewegungsnummer= r.Next(1, 9);
+            Bewegungsnummer= r.Next(1, 16);
             Bewegung();
         }
 
@@ -57,7 +57,6 @@ namespace SpielNaoKinect.Nao
             mw._LElbowRoll.Clear();
             mw._RElbowRoll.Clear();
 
-            Console.WriteLine("Nao führt Bewegung Nummer " + Bewegungsnummer + " aus.");
             switch (Bewegungsnummer)
             {
                 case 1:
@@ -79,7 +78,6 @@ namespace SpielNaoKinect.Nao
                         {
                             SpeichereAlleWerte();
                         }
-                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
@@ -97,7 +95,6 @@ namespace SpielNaoKinect.Nao
                         {
                             SpeichereAlleWerte();
                         }
-                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
@@ -115,7 +112,6 @@ namespace SpielNaoKinect.Nao
                         {
                             SpeichereAlleWerte();
                         }
-                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
@@ -137,7 +133,6 @@ namespace SpielNaoKinect.Nao
                         {
                             SpeichereAlleWerte();
                         }
-                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
@@ -161,7 +156,6 @@ namespace SpielNaoKinect.Nao
                         {
                             SpeichereAlleWerte();
                         }
-                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
@@ -181,7 +175,6 @@ namespace SpielNaoKinect.Nao
                         {
                             SpeichereAlleWerte();
                         }
-                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
@@ -205,7 +198,6 @@ namespace SpielNaoKinect.Nao
                         {
                             SpeichereAlleWerte();
                         }
-                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
@@ -227,18 +219,187 @@ namespace SpielNaoKinect.Nao
                         {
                             SpeichereAlleWerte();
                         }
-                        Console.WriteLine("Es wurden insgesamt " + mw._LShoulderPitch.Count + " Werte vom Nao gespeichert.");
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("Bewegung8 Fehler" + e.Message);
                     }
                     break;
+                case 9: //linker Arme zuerst Seite, rechter Arm hoch; dann links und rechts mitte; dann links hoch, rechts seite; dann mitte
+                    try
+                    {
+                        string[] Joints = { "LShoulderRoll", "LShoulderPitch", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(-90), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel2 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        float[] Winkel3 = { UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-90) };
+                        float[] Winkel4 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.12f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.12f);
+                        int IDMotion3 = motion.post.angleInterpolationWithSpeed(Joints, Winkel3, 0.12f);
+                        int IDMotion4 = motion.post.angleInterpolationWithSpeed(Joints, Winkel4, 0.12f);
+
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2) || motion.isRunning(IDMotion3) || motion.isRunning(IDMotion4))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Bewegung9 Fehler" + e.Message);
+                    }
+                    break;
+                case 10: //linker Arm im rechten Winkel nach unten (außen), rechter Arm im rechten Winkel nach oben (außen), dann beide zur Mitte, dann erst linker Arm im rechten Winkel nach außen, dann der rechte Arm im rechten Winkel nach außen und linker zur Mitte, dann weider auf Mitte
+                    try
+                    {
+                        string[] Joints = { "LElbowRoll", "LShoulderRoll", "LShoulderPitch", "RElbowRoll", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(-85), UmrechnungDegRad(75), UmrechnungDegRad(90), UmrechnungDegRad(85), UmrechnungDegRad(-75), UmrechnungDegRad(-90) };
+                        float[] Winkel2 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        float[] Winkel3 = { UmrechnungDegRad(-85), UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        float[] Winkel4 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(85), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel5 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.12f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.12f);
+                        int IDMotion3 = motion.post.angleInterpolationWithSpeed(Joints, Winkel3, 0.12f);
+                        int IDMotion4 = motion.post.angleInterpolationWithSpeed(Joints, Winkel4, 0.12f);
+                        int IDMotion5 = motion.post.angleInterpolationWithSpeed(Joints, Winkel5, 0.12f);
+
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2) || motion.isRunning(IDMotion3) || motion.isRunning(IDMotion4) || motion.isRunning(IDMotion5))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Bewegung10 Fehler" + e.Message);
+                    }
+                    break;
+                case 11: //beide Arme hoch, über außen nach unten, wieder nach außen in die Mitte
+                    try
+                    {
+                        string[] Joints = { "LShoulderRoll", "LShoulderPitch", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(-90), UmrechnungDegRad(0), UmrechnungDegRad(-90) };
+                        float[] Winkel2 = { UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel3 = { UmrechnungDegRad(0), UmrechnungDegRad(90), UmrechnungDegRad(0), UmrechnungDegRad(90) };
+                        float[] Winkel4 = { UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel5 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.12f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.12f);
+                        int IDMotion3 = motion.post.angleInterpolationWithSpeed(Joints, Winkel3, 0.12f);
+                        int IDMotion4 = motion.post.angleInterpolationWithSpeed(Joints, Winkel4, 0.12f);
+                        int IDMotion5 = motion.post.angleInterpolationWithSpeed(Joints, Winkel5, 0.12f);
+
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2) || motion.isRunning(IDMotion3) || motion.isRunning(IDMotion4) || motion.isRunning(IDMotion5))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Bewegung11 Fehler" + e.Message);
+                    }
+                    break;
+                case 12: //Linker Arm runter, dann lienker wieder zur Mitte und rechter im rechten Winkel zur Seite, dann rechten Arm ausstrecken, dann wieder zum rechten Winkel und dann wieder zur Mitte
+                    try
+                    {
+                        string[] Joints = { "LElbowRoll", "LShoulderRoll", "LShoulderPitch", "RElbowRoll", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(90), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        float[] Winkel2 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(85), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel3 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel4 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(85), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel5 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.12f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.12f);
+                        int IDMotion3 = motion.post.angleInterpolationWithSpeed(Joints, Winkel3, 0.12f);
+                        int IDMotion4 = motion.post.angleInterpolationWithSpeed(Joints, Winkel4, 0.12f);
+                        int IDMotion5 = motion.post.angleInterpolationWithSpeed(Joints, Winkel5, 0.12f);
+
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2) || motion.isRunning(IDMotion3) || motion.isRunning(IDMotion4) || motion.isRunning(IDMotion5))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Bewegung12 Fehler" + e.Message);
+                    }
+                    break;
+                case 13: // beide Arme drei Mal hoch und runter
+                    try
+                    {
+                        string[] Joints = { "LShoulderRoll", "LShoulderPitch", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(-90), UmrechnungDegRad(0), UmrechnungDegRad(-90) };
+                        float[] Winkel2 = { UmrechnungDegRad(0), UmrechnungDegRad(90), UmrechnungDegRad(0), UmrechnungDegRad(90) };
+                        float[] Winkel3 = { UmrechnungDegRad(0), UmrechnungDegRad(-90), UmrechnungDegRad(0), UmrechnungDegRad(-90) };
+                        float[] Winkel4 = { UmrechnungDegRad(0), UmrechnungDegRad(90), UmrechnungDegRad(0), UmrechnungDegRad(90) };
+                        float[] Winkel5 = { UmrechnungDegRad(0), UmrechnungDegRad(-90), UmrechnungDegRad(0), UmrechnungDegRad(-90) };
+                        float[] Winkel6 = { UmrechnungDegRad(0), UmrechnungDegRad(90), UmrechnungDegRad(0), UmrechnungDegRad(90) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.25f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.25f);
+                        int IDMotion3 = motion.post.angleInterpolationWithSpeed(Joints, Winkel3, 0.25f);
+                        int IDMotion4 = motion.post.angleInterpolationWithSpeed(Joints, Winkel4, 0.25f);
+                        int IDMotion5 = motion.post.angleInterpolationWithSpeed(Joints, Winkel5, 0.25f);
+                        int IDMotion6 = motion.post.angleInterpolationWithSpeed(Joints, Winkel6, 0.25f);
+
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2) || motion.isRunning(IDMotion3) || motion.isRunning(IDMotion4) || motion.isRunning(IDMotion5) || motion.isRunning(IDMotion6))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Bewegung13 Fehler" + e.Message);
+                    }
+                    break;
+                case 14: // Beide Arme im 45° Winkel nach außen, dann den Ellbogen im rechten Winkel nach innen knicken lassen, wieder nach außen und zur Startposition
+                    try
+                    {
+                        string[] Joints = { "LElbowRoll", "LShoulderRoll", "LShoulderPitch", "RElbowRoll", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(0), UmrechnungDegRad(45), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-45), UmrechnungDegRad(0) };
+                        float[] Winkel2 = { UmrechnungDegRad(-85), UmrechnungDegRad(45), UmrechnungDegRad(0), UmrechnungDegRad(85), UmrechnungDegRad(-45), UmrechnungDegRad(0) };
+                        float[] Winkel3 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.12f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.12f);
+                        int IDMotion3 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.12f);
+                        int IDMotion4 = motion.post.angleInterpolationWithSpeed(Joints, Winkel3, 0.12f);
+
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2) || motion.isRunning(IDMotion3) || motion.isRunning(IDMotion4))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Bewegung14 Fehler" + e.Message);
+                    }
+                    break;
+                case 15: // 
+                    try
+                    {
+                        string[] Joints = { "LShoulderRoll", "LShoulderPitch", "RShoulderRoll", "RShoulderPitch" };
+                        float[] Winkel1 = { UmrechnungDegRad(75), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        float[] Winkel2 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(-75), UmrechnungDegRad(0) };
+                        float[] Winkel3 = { UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0), UmrechnungDegRad(0) };
+                        int IDMotion1 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.12f);
+                        int IDMotion2 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.12f);
+                        int IDMotion3 = motion.post.angleInterpolationWithSpeed(Joints, Winkel1, 0.12f);
+                        int IDMotion4 = motion.post.angleInterpolationWithSpeed(Joints, Winkel2, 0.12f);
+                        int IDMotion5 = motion.post.angleInterpolationWithSpeed(Joints, Winkel3, 0.12f);
+
+                        while (motion.isRunning(IDMotion1) || motion.isRunning(IDMotion2) || motion.isRunning(IDMotion3) || motion.isRunning(IDMotion4) || motion.isRunning(IDMotion5))
+                        {
+                            SpeichereAlleWerte();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Bewegung15 Fehler" + e.Message);
+                    }
+                    break;
                 default:
                     Console.WriteLine("Fehler: Es ist keine Bewegung ausgewählt worden.");
                     break;
             }
-            tts.say("Nun mache du die Bewegung nach");
+            tts.say("Nun mache die Bewegung nach");
         }
 
         private void SpeichereAlleWerte()

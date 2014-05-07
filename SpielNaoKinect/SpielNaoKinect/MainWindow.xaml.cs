@@ -100,14 +100,15 @@ namespace SpielNaoKinect
         [System.STAThread()]
         static void Main(string[] args)
         {
-            Console.WriteLine("Starte gesamte Applikation");
             new Application().Run(new MainWindow());
         }
+
+
+
 
 // KINECT starten
         public MainWindow()
         {
-            Console.WriteLine("Starte MainWindow");
             InitializeComponent();
 
             //Warte bis Kinect-Sensor verbunden
@@ -116,7 +117,6 @@ namespace SpielNaoKinect
                 //Sensorreferenz erstellen
                 if (potentialSensor.Status == KinectStatus.Connected)
                 {
-                    Console.WriteLine("KinectSensor ist connected");
                     mySensor = potentialSensor;
                     break;
                 }
@@ -162,6 +162,17 @@ namespace SpielNaoKinect
             }
         }
 
+//Fenster IP
+        public static string getIP()
+        {
+            string value = "127.0.0.1";
+
+            if (IPWindow.show("Geben Sie die IP Adresse zum Nao ein:", "IP:", ref value) == System.Windows.Forms.DialogResult.OK)
+            {
+                return value;
+            }
+            return value;
+        }
 
 // SKELETON
         private void mySensor_AllFramesReady(object sender, AllFramesReadyEventArgs e)
@@ -285,12 +296,10 @@ namespace SpielNaoKinect
 // FENSTER geschlossen
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Console.WriteLine("Unloading Programm...");
             if (null != mySensor)
             {
                 mySensor.Stop();
             }
-            Console.WriteLine("Ende");
         }
 
 // BUTTONS
@@ -363,7 +372,6 @@ namespace SpielNaoKinect
                         LabelBewegung.Content = "";
                         Timer.Stop();
                         TimerEnde = true;
-                        Console.WriteLine("Timer ist fertig; also auf 0");
                     }
                     else
                     {
@@ -439,7 +447,6 @@ namespace SpielNaoKinect
             while (TimerEnde == false) ;
             if (Achsel_links_roll_erreicht && Achsel_rechts_roll_erreicht && Achsel_links_pitch_erreicht && Achsel_rechts_pitch_erreicht && Ellenbogen_links_roll_erreicht && Ellenbogen_rechts_roll_erreicht)
             {
-                Console.WriteLine("Du hast die Bewegung erfolgreich wiederholt");
                 if (Schwierigkeit == 20)
                 {
                     Punkte = Punkte + 10;
@@ -465,13 +472,6 @@ namespace SpielNaoKinect
             }
             else
             {
-                Console.WriteLine("Leider hast du die Bewegung nicht richtig wiederholen können. Klicke doch auf den Button 'Wiederholen' und versuche es noch einmal");
-                Console.WriteLine("1" + Achsel_links_roll_erreicht);
-                Console.WriteLine("2" + Achsel_rechts_roll_erreicht);
-                Console.WriteLine("3" + Achsel_links_pitch_erreicht);
-                Console.WriteLine("4" + Achsel_rechts_pitch_erreicht);
-                Console.WriteLine("5" + Ellenbogen_links_roll_erreicht);
-                Console.WriteLine("6" + Ellenbogen_rechts_roll_erreicht);
                 Init.Bew_falsch();
             }
 
@@ -518,7 +518,7 @@ namespace SpielNaoKinect
         private void Thread_Init_Nao()
         {
             Init = new Init(this);
-            Init.Initialisierung("192.168.100.3", 9559);
+            Init.Initialisierung(getIP(), 9559);
         }
 
 
