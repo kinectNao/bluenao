@@ -30,7 +30,7 @@ namespace SpielNaoKinect.Nao
         public void Bewegung_erzeugen()
         {
             Random r = new Random();
-            Bewegungsnummer= r.Next(8, 9);
+            Bewegungsnummer= r.Next(1, 16);
             Bewegung();
         }
 
